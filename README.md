@@ -5,6 +5,14 @@ This modular tool uses a draft genome assembly, a genome map and high-throughput
 
 MaGuS provides new quality metrics and perfomed a new scaffolding of the assembly increasing the continuity by creating new links in low-covered regions and highly repeated regions where other usual scaffolding methods lack consistency.
 
+It's based on five steps :
+
+The fist is "wgp2map" wich perfomes sorted anchored tags with a keygene file and the bam file of tags alignements on sequences assembly.
+Next, "map2links" creates the putative links between scaffolds with teh magus format map file generated in first step (or on a manual way).
+Third, "pairs2links" step uses NGS data to validate some putative links and estimates gaps. Then it creates a ".de" format file for new scaffolding.
+At least, "links2scaf" outputs the new final assembly with all those informations.
+Finally, the "map2qc" step gives quality metrics about this new assembly.
+
 MaGuS is distributed open-source under CeCILL FREE SOFTWARE LICENSE. Check out http://www.cecill.info/ for more information about the contents of this license.
 
 MaGuS home on the web is http://www.genoscope.cns.fr/magus
@@ -82,16 +90,16 @@ MaGuS runs on arabidopsis data in less than 20 minutes et needs 1,3 GB of memory
 
 You can run each step separatly with options :
 
-- wgp2map
-- map2qc
-- map2links
-- pairs2links
-- links2scaf
+- wgp2map : takes as input file provided by keygene and bam file of tags alignment on sequences assembly, takes as input file provided by keygene and bam file of tags alignment on sequences assembly,
+- map2qc : takes as input MaGuS files and evaluates the assembly quality.
+- map2links : takes as input MaGuS format map file and creates the putative links between scaffolds.
+- pairs2links :  takes as input the putative links file and bam file the alignment of the paired-end reads, then validates the putative links, directs the scaffolds, estimates the gap size and creates a link.de file.
+- links2scaf : take as input the link.de file and run the SGA scaffolding programs. It outputs the final assembly.
 
 ### More informations
 
 ```
-magus -h
+magus -h (more help for each module whith -h, i.e. : magus wgp2map -h)
 ```
 
 Download the documentation http://www.genoscope.cns.fr/externe/magus/magus-1.0.pdf.
