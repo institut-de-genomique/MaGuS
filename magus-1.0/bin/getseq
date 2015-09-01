@@ -1,0 +1,238 @@
+#!/usr/local/bin/perl -w
+
+use strict;
+use FileHandle;
+use Getopt::Long;
+
+use Extraction::ExtraSeq;
+use ToolBox::FileTools::FileTools;
+
+our $PRG_NAME = $0;
+
+## Initialisations
+my  %param = ("SEQ"             => "",
+	      "NAME"            => "",
+	      "DEBUT"           => "",
+	      "FIN"             => "",
+	      "BRIN"            => "",
+	      "DESC"            => "",
+	      "LIST"            => "",
+	      "TRAD"            => -1,
+	      "LEN"             => 0,
+	      "SCLEN"           => 0,
+	      "SDLEN"           => 0,
+	      "OUT"             => ">-",
+	      "LONGFASTAHEADER" => 0,
+	      "MAXCACHE"        => 100000000,
+	      "VERBOSE"         => 0,
+	      "HELP"            => 0
+	      );
+
+my $init = GetOptions("f=s"             => \$param{SEQ},
+		      "name=s"          => \$param{NAME},
+		      "b=s"             => \$param{DEBUT},
+		      "e=s"             => \$param{FIN},
+		      "br=s"            => \$param{BRIN},
+		      "desc=s"          => \$param{DESC},
+		      "list=s"          => \$param{LIST},
+		      "p=i"             => \$param{TRAD},
+		      "len"             => \$param{LEN},
+		      "sclen"           => \$param{SCLEN},
+		      "sdlen"           => \$param{SDLEN},
+		      "o=s"             => \$param{OUT},
+		      "longFastaHeader" => \$param{LONGFASTAHEADER},
+		      "maxcache=i"      => \$param{MAXCACHE},
+		      "v"               => \$param{VERBOSE},
+		      "h"               => \$param{HELP}
+		      );
+
+if($param{HELP}) { usage(); }
+
+if(!$init || $param{SEQ} eq "") { error("[Error] Need to give a input file with option -f."); }
+if(! -f $param{SEQ}){ error("[Error] $param{SEQ} is not a file."); }
+
+if($param{NAME} eq "" && ($param{DEBUT} ne "" || $param{FIN} ne "" || $param{BRIN} ne "")) { 
+    error("[Error] Options -b, -e and -br could not be used without option -name."); 
+}
+if($param{NAME} ne "" && $param{LIST} ne "") { 
+    warn "[Warning] Can't use Options -name and -list together, option -list deleted."; 
+}
+
+if($param{BRIN} eq "") { $param{BRIN} = "+"; }
+
+## Handle de sorties
+my $fhout = openFile($param{OUT}, "w");
+if(!defined $fhout){ error("[Error] Can't open $param{OUT} in [w] mode : $!"); }
+
+## Chargement des sequences
+my $bank = new Extraction::ExtraSeq($param{SEQ});
+$bank->max_size_cache($param{MAXCACHE});
+$bank->verbose($param{VERBOSE});
+$bank->loadBank();
+
+## Traitement
+if($param{NAME} ne "") { # option -name
+    my $frag = &extractSeqFrag($bank, $param{NAME}, $param{DEBUT}, $param{FIN}, 
+			       $param{BRIN}, $param{TRAD}, $param{LONGFASTAHEADER});
+    if(!defined $frag) { next; }
+    my ($brin, $desc) = ($param{BRIN}, $param{DESC});
+    if($param{LEN}){ $desc .= "length= " . $frag->getLength() . " residue(s)"; }
+    if($param{TRAD}>0){ $brin = undef; }
+    &printSeq($fhout, $frag, $brin, $desc, $param{LONGFASTAHEADER});
+}
+
+elsif($param{LIST} ne "") { # option -list
+    my $fhl = new FileHandle($param{LIST});
+    if(!defined $fhl){ error("[Error] Can't open list file $param{LIST} in [r] mode : $!\n"); }
+    while(my $line = $fhl->getline()) {
+	chomp($line);
+	if($line =~ /^(\S+)\s*(-?\d*)\s*(-?\d*)\s*([+-]?)\s*(.*)$/) {
+	    my ($seqname, $deb, $fin) = ($1, $2, $3);
+	    my $brin = $4 || "+";
+	    my $desc = $5 || "";
+	    my $frag = &extractSeqFrag($bank, $seqname, $deb, $fin, $brin, $param{TRAD}, $param{LONGFASTAHEADER});
+	    if(!defined $frag) { next; }
+	    if($param{LEN}){ $desc .= "length= " . $frag->getLength() . " residue(s)"; }
+	    if($param{TRAD}){ $brin = undef; }
+	    &printSeq($fhout, $frag, $brin, $desc, $param{LONGFASTAHEADER});
+	}
+	else { warn "[Warning] Bad format : $line\n"; }
+    }
+}
+
+# Un sous ensemble de sequence n'a pas ete specifie par -name ou -list
+elsif($param{TRAD} != -1) { # extraction des sequences proteiques
+    my $seqnames = $bank->getAllSeqName();
+    foreach my $nom (@$seqnames) {
+	my $frag = &extractSeqFrag($bank, $nom, undef, undef, undef, $param{TRAD}, $param{LONGFASTAHEADER});
+	my $desc;
+	if($param{LEN}){ $desc = "length= " . $frag->getLength() . " aa"; }
+	&printSeq($fhout, $frag, undef, $desc, $param{LONGFASTAHEADER});
+    }
+}
+
+elsif($param{LEN} || $param{SCLEN} || $param{SDLEN}) { # seule l'option -len est specifiee => donne la longueur de toutes les sequences
+    my $seqnames = $bank->getAllSeqNameOriginalOrder();
+    if($param{LEN}) {
+	foreach my $nom (@$seqnames) {
+	    my $seq = $bank->getSeq($nom);
+	    print $fhout $nom, "\t", $seq->getLength(), "\n";
+	}
+    } else {
+	my %len;
+	my @seqs;
+	foreach my $nom (@$seqnames) {
+	    my $seq = $bank->getSeq($nom);
+	    my $size = $seq->getLength();
+	    $len{$nom} = $size;
+	    push(@seqs, $nom);
+	}
+	my @sort = ($param{SCLEN}) ? (sort { $len{$a} <=> $len{$b} } @seqs) : (sort { $len{$b} <=> $len{$a} } @seqs);
+	foreach(@sort) {
+	    print $fhout $_, "\t", $len{$_}, "\n";
+	}
+    }
+}
+
+else { error("[Error] No option specified!"); }
+
+
+
+###############
+## Fonctions
+
+sub error {
+    my $msg = shift;
+    if(defined $msg) { warn "$msg\n"; }
+    warn "See $PRG_NAME -h for more details.\n";
+    exit 1;
+}
+
+sub usage
+{
+    my $usage = "--------------------------------------------------------------------------------------------
+ $PRG_NAME - Extract sequence(s) from fasta or quality file.                                              
+                                                                                            
+ Usage: getseq.pl -f <fasta file>                                                         
+        [-name <nom de sequence>                                                            
+          [-b <entier> -e <entier> -br <[+-]> -desc <description>]                          
+        ]                                                                                   
+        [-list <fichier> ]                                                                  
+        [-p <entier>]                                                                       
+        [-len]                                                                              
+        [-desc <description>]                                                               
+        [-o <output file>] ....                                                                 
+                                                                                            
+ Argument :                                                                        
+   -f    : Fichier de sequences fasta (multiple ou non).                                    
+                                                                                            
+ Options :                                                                      
+   -name            : Nom de la sequence a extraire. b et e permettent de specifier des     
+                      positions de debut et de fin de fragment de sequence a extraire.      
+                      Si b est specifie, mais pas e, l'extration a lieue a partir de b      
+                      jusqu'a la fin de la sequence. Et inversement.                        
+                      Option exclusive de list.                                             
+   -list            : Fichier contenant une liste de sequence a extraire. Un nom de         
+                      sequence par ligne. Des positions de debut et de fin de fragment      
+                      peuvent etre specifie en colonne 2 et 3 de chaque ligne. Ainsi        
+                      que le brin de la sequence a extraire, et une description.            
+                      Le comportement est le meme que pour l'option -name.                  
+                      Exemple: <nom de sequence> [<debut>] [<fin>] [<[+-]>] [<description>] 
+                      Option exclusive de name.                                             
+   -p               : Permet d'obtenir la proteine correspondant a la sequence. L'entier    
+                      indique le code genetique a utiliser. Si celui-ci n'existe pas, le    
+                      code genetique standard est pris par defaut.                          
+   -len             : Imprime les longueurs des sequences.                                  
+   -sdlen           : Imprime les longueurs des sequences tries par ordre decroissant.      
+   -sclen           : Imprime les longueurs des sequences tries par ordre croissant.        
+   -desc            : Remplace le nom de la sequence par l'argument desc.                   
+   -o               : Fichier de sortie. STDOUT par defaut.                                 
+   -longFastaHeader : Imprime une description plus longue dans le header fasta.             
+   -maxcache        : Change la taille maximale du cache pour l'extracteur de séquence,     
+                      100Mb (100000000) par défaut.                                         
+   -h               : Aide.                                                                 
+--------------------------------------------------------------------------------------------
+";
+    die $usage;
+}
+
+sub printSeq {
+    my ($fh, $seg, $brin ,$desc, $long) = @_;
+    my ($str, $name) = ("", $seg->name());
+    if(defined $brin && $brin ne "") { $str .= " ## strand= $brin"; }
+    if(defined $desc && $desc ne "") { $name = $desc; }
+    if($long != 1) { $str=""; }
+    print $fh ">", $name, "$str\n" , $seg->formatSeq();
+    return 1;
+}
+
+
+sub printLen {
+    my ($fh, $seg) = @_;
+    print $fh $seg->name(), "\t", $seg->getLength(), "\n";
+    return 1;
+}
+
+sub extractSeqFrag {
+    my ($bk, $nomSeq, $posD, $posF, $brin, $trad, $long) = @_;
+
+    my($deb, $fin) = (-1, -1);
+    if(defined $posD && $posD ne ""){ $deb = $posD; }
+    if(defined $posF && $posF ne ""){ $fin = $posF; }
+    if($deb > $fin && $fin>-1) { 
+	warn "[$PRG_NAME] Warning : Start position ($deb) must be shorter than end position ($fin)\n"; 
+	return undef; 
+    }
+
+    my $frag;
+    if($deb == -1 && $fin == -1) { $frag = $bk->getSeq($nomSeq); }
+    else { 
+        $frag = $bk->getFrag($nomSeq, $deb, $fin, (!$long)); 
+        $frag->name($frag->name() . " $deb-$fin:$brin")
+    }
+
+    if(defined $brin && $brin eq "-") { $frag->revcomp(); }
+    if(defined $trad && $trad != -1) { $frag->translation($trad); }
+
+    return $frag;
+}
