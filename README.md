@@ -3,12 +3,12 @@ MaGuS (Map-Guided Scaffolding) is an efficient map-guided scaffolder to improve 
 
 This modular tool uses a draft genome assembly, a genome map and high-throughput sequencing paired-end data.
 
-MaGuS provides new quality metrics and perfomed a new scaffolding of the assembly increasing the continuity by creating new links in low-covered regions and highly repeated regions where other usual scaffolding methods lack consistency.
+MaGuS provides new quality metrics and performed a new scaffolding of the assembly increasing the continuity by creating new links in low-covered regions and highly repeated regions where other usual scaffolding methods lack consistency.
 
 It's based on five steps :
 
-The fist is "wgp2map" wich perfomes sorted anchored tags with a keygene file and the bam file of tags alignements on sequences assembly.
-Next, "map2links" creates the putative links between scaffolds with teh magus format map file generated in first step (or on a manual way).
+The first is "wgp2map" which performes sorted anchored tags with a keygene file and the bam file of tags alignments on sequences assembly.
+Next, "map2links" creates the putative links between scaffolds with the magus format map file generated in first step (or on a manual way).
 Third, "pairs2links" step uses NGS data to validate some putative links and estimates gaps. Then it creates a ".de" format file for new scaffolding.
 At least, "links2scaf" outputs the new final assembly with all those informations.
 Finally, the "map2qc" step gives quality metrics about this new assembly.
@@ -56,13 +56,13 @@ RUNNING MaGuS
 --------------
 This part describes the different steps required to run MaGuS
 
-The directory "MaGuS_example_arabido" provides all files needed tu run MaGuS.
+The directory "MaGuS_example_arabido" provides all files needed to run MaGuS.
 
 ### Inputs
 
 - tagsWgp.out : WGP tags provided in Keygene format.
 
-- tags.bam : tags alignments on dr'aft assembly previously build in bam format.
+- tags.bam : tags alignments on draft assembly previously build in bam format.
 
 - mp1.bam and mp2.bam : paired reads alignments on dr'aft assembly previously build in bam format.
 
@@ -88,7 +88,7 @@ MaGuS runs on arabidopsis data in less than 20 minutes et needs 1,3 GB of memory
 
 ### Options
 
-You can run each step separatly with options :
+You can run each step separately with options :
 
 - wgp2map : takes as input file provided by keygene and bam file of tags alignment on sequences assembly, takes as input file provided by keygene and bam file of tags alignment on sequences assembly,
 - map2qc : takes as input MaGuS files and evaluates the assembly quality.
