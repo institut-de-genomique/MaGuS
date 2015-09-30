@@ -82,12 +82,15 @@ N.B: Several paired-end libraries of different fragment size can be used simulta
 
 map2links output
 -prefix_map_links.txt: the list of the scaffold links inferred from the genome map, (scaf1_scaf2)
+
 -prefix_ordered_tags.txt: the tags sorted by position on the scaffolds
+
   col 1: scaffoldId     
   col 2: position
   col 3: tagId
   col 4: rank
   col 5: groupID
+  
 -prefix_anchorage.txt: the position of the scaffolds on the genome map, contains 5 columns
   col 1: groupID                     
   col 2: scaffoldId
@@ -96,8 +99,11 @@ map2links output
   col 5: number of tags
   
 pairs2links output
+
 -prefix_validated_map_links.de: map-links validated by paired reads in .de format (SGA specific format)
+
 -prefix_unvalidated_map_links.txt: list of map-links not validated by the paired reads
+
 
 links2scaf output
 -prefix_all_scaffolds.fa: the final assembly (FASTA)
