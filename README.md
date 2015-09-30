@@ -58,15 +58,22 @@ The directory "MaGuS_example_arabido" contains the example files to test MaGuS.
 ### Inputs
 
 -wgp WGP sorted tags
+
 -tags tags alignment on the assembly of Arabidopsis (BAM).
+
 -reads pairs.bam,mean,sd,length
+
     pairs.bam: paired-reads alignments on draft assembly (BAM)
     mean: mean size of paired-reads fragment (bp)
     sd: standard deviation of the paired-reads fragment size (bp) 
     length: reads length (bp)
+    
 -scaff genome assembly (FASTA)
+
 -prefix output prefix (str).
+
 -genome genome size  (bp).
+
 
 N.B: Several paired-end libraries of different fragment size can be used simultanously, each library has to be added with the -reads options example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2 ...
 
