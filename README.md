@@ -1,5 +1,5 @@
 # MaGuS
-MaGuS (Map-GUided Scaffolding) is a scaffolder and a reference-free evaluator of assembly quality. It uses a draft genome assembly, a genome map, and high-throughput sequencing paired-end data. MaGuS provides quality metrics and performed a new scaffolding. It has been succesfully tested on the Arabidopsis genome with Illumina reads and a Whole-Genome Profiling (WGP) map.
+MaGuS (Map-GUided Scaffolding) is a scaffolder and a reference-free evaluator of assembly quality. It uses a draft genome assembly, a genome map, and high-throughput sequencing paired-end data. It has been succesfully tested on the Arabidopsis genome with Illumina reads and a Whole-Genome Profiling (WGP) map.
 
 MaGuS run the five following steps :
 
@@ -58,23 +58,53 @@ The directory "MaGuS_example_arabido" contains the example files to test MaGuS.
 ### Inputs
 
 -wgp WGP sorted tags
-
 -tags tags alignment on the assembly of Arabidopsis (BAM).
-
--reads paired-reads alignments on draft assembly (BAM), mean size of paired-reads fragment (bp), standard deviation in bp of the paired-reads fragment size (bp), reads length.
-
+-reads pairs.bam,mean,sd,length
+    pairs.bam: paired-reads alignments on draft assembly (BAM)
+    mean: mean size of paired-reads fragment (bp)
+    sd: standard deviation of the paired-reads fragment size (bp) 
+    length: reads length (bp)
 -scaff genome assembly (FASTA)
-
--prefix output files prefix.
-
+-prefix output prefix (str).
 -genome genome size  (bp).
 
-N.B: Several paired-end libraries of different fragment size can be used simultanously, each library has to be added with the -reads options 
+N.B: Several paired-end libraries of different fragment size can be used simultanously, each library has to be added with the -reads options example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2 ...
 
 
-### Outputs
+### Output
 
-MaGuS runs on arabidopsis data in less than 20 minutes et needs 1,3 GB of memory.
+map2links output
+-prefix_map_links.txt: the list of the scaffold links inferred from the genome map, (scaf1_scaf2)
+-prefix_ordered_tags.txt: the tags sorted by position on the scaffolds
+  col 1: scaffoldId     
+  col 2: position
+  col 3: tagId
+  col 4: rank
+  col 5: groupID
+-prefix_anchorage.txt: the position of the scaffolds on the genome map, contains 5 columns
+  col 1: groupID                     
+  col 2: scaffoldId
+  col 3: minimum tag rank
+  col 4: maximum tag rank
+  col 5: number of tags
+  
+pairs2links output
+-prefix_validated_map_links.de: map-links validated by paired reads in .de format (SGA specific format)
+-prefix_unvalidated_map_links.txt: list of map-links not validated by the paired reads
+
+links2scaf output
+-prefix_all_scaffolds.fa: the final assembly (FASTA)
+-prefix_scaffolds.fa: SGA scaffolding output (FASTA)
+-prefix_sga.scaf: scaffolding information (SGA specific format) 
+-prefix_sga_scaf_lost.txt: list of scaffolds not considered by SGA
+-prefix_lost_scaffolds.fa: scaffold not taken by SGA during the scaffolding step (FASTA)
+
+map2qc output
+-prefix_An.csv: the Anx vlaues for x = 1 to 100%
+-prefix_AnA.csv: the AnAx values for x = 1 to 100%
+-prefix_AnG.csv: the AnGx vlaues for x = 1 to 100%
+-prefix_quality_metrics.png: Anx, AnAx and AnGx plots
+-prefix_quality_metrics.txt: summary quality metrics of Anx, AnAx and AnGx values for x=0.5, x=0.75 and x=0.9
 
 ### Options
 
@@ -92,7 +122,7 @@ Download the documentation http://www.genoscope.cns.fr/externe/magus/magus-1.0.p
 
 ACKNOWLEDGMENTS
 ---------------
-Carole Dossat, Jean-Marc Aury and Amin Madoui - MaGuS's authors
+Carole Dossat, Jean-Marc Aury and Mohammed-Amin Madoui - MaGuS's authors
 
 This work was financially supported by the Genoscope,
 Institut de Genomique, CEA and Agence Nationale de la
