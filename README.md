@@ -86,15 +86,15 @@ example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2
 
 -prefix_ordered_tags.txt: the tags sorted by position on the scaffolds
 
-  col 1: scaffoldId     
+  col 1: scaffold Id     
   col 2: position
   col 3: tagId
   col 4: rank
-  col 5: groupID
+  col 5: group ID
   
 -prefix_anchorage.txt: the position of the scaffolds on the genome map, contains 5 columns
-  col 1: groupID                     
-  col 2: scaffoldId
+  col 1: group ID                     
+  col 2: scaffold Id
   col 3: minimum tag rank
   col 4: maximum tag rank
   col 5: number of tags
@@ -135,7 +135,8 @@ example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2
 
 Each step can be executed separately as follow:
 ```
-MaGuS step1 -option1 -option2  
+MaGuS wgp2map -option1 ... -option2 ...
+MaGuS map2links -option1 ... -option2 ...
 ```
 ### More informations
 
