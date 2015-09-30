@@ -81,7 +81,7 @@ example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2
 
 ### Output
 
-map2links output
+- map2links output
 -prefix_map_links.txt: the list of the scaffold links inferred from the genome map, (scaf1_scaf2)
 
 -prefix_ordered_tags.txt: the tags sorted by position on the scaffolds
@@ -99,14 +99,14 @@ map2links output
   col 4: maximum tag rank
   col 5: number of tags
   
-pairs2links output
+- pairs2links output
 
 -prefix_validated_map_links.de: map-links validated by paired reads in .de format (SGA specific format)
 
 -prefix_unvalidated_map_links.txt: list of map-links not validated by the paired reads
 
 
-links2scaf output
+- links2scaf output
 
 -prefix_all_scaffolds.fa: the final assembly (FASTA)
 
@@ -119,7 +119,7 @@ links2scaf output
 -prefix_lost_scaffolds.fa: scaffold not taken by SGA during the scaffolding step (FASTA)
 
 
-map2qc output
+- map2qc output
 
 -prefix_An.csv: the Anx vlaues for x = 1 to 100%
 
