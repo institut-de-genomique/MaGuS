@@ -63,11 +63,11 @@ The directory "MaGuS_example_arabido" contains the example files to test MaGuS.
 
 -reads pairs.bam,mean,sd,length
 
-    pairs.bam: paired-reads alignments on draft assembly (BAM)
-    mean: mean size of paired-reads fragment (bp)
-    sd: standard deviation of the paired-reads fragment size (bp) 
-    length: reads length (bp)
-    
+  pairs.bam: paired-reads alignments on draft assembly (BAM)
+  mean: mean size of paired-reads fragment (bp)
+  sd: standard deviation of the paired-reads fragment size (bp) 
+  length: reads length (bp)
+  
 -scaff genome assembly (FASTA)
 
 -prefix output prefix (str).
@@ -75,7 +75,8 @@ The directory "MaGuS_example_arabido" contains the example files to test MaGuS.
 -genome genome size  (bp).
 
 
-N.B: Several paired-end libraries of different fragment size can be used simultanously, each library has to be added with the -reads options example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2 ...
+N.B: Several paired-end libraries of different fragment size can be used simultanously, each library has to be added with the -reads options 
+example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2 ...
 
 
 ### Output
@@ -106,17 +107,28 @@ pairs2links output
 
 
 links2scaf output
+
 -prefix_all_scaffolds.fa: the final assembly (FASTA)
+
 -prefix_scaffolds.fa: SGA scaffolding output (FASTA)
+
 -prefix_sga.scaf: scaffolding information (SGA specific format) 
+
 -prefix_sga_scaf_lost.txt: list of scaffolds not considered by SGA
+
 -prefix_lost_scaffolds.fa: scaffold not taken by SGA during the scaffolding step (FASTA)
 
+
 map2qc output
+
 -prefix_An.csv: the Anx vlaues for x = 1 to 100%
+
 -prefix_AnA.csv: the AnAx values for x = 1 to 100%
+
 -prefix_AnG.csv: the AnGx vlaues for x = 1 to 100%
+
 -prefix_quality_metrics.png: Anx, AnAx and AnGx plots
+
 -prefix_quality_metrics.txt: summary quality metrics of Anx, AnAx and AnGx values for x=0.5, x=0.75 and x=0.9
 
 ### Options
