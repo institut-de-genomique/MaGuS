@@ -50,7 +50,7 @@ INSTALLATION
 $ magus all -wgp tagsWgp.out -tags tags.bam -reads mp1.bam,5350,1000,76 -reads mp2.bam,5350,1000,76 -scaff assembly.fa -prefix arabido -genome 119667750
 ```
 
-RUNNING EXAMPLE
+RUNNING MaGuS
 --------------
 
 The directory "MaGuS_example_arabido" contains the example files to test MaGuS.
