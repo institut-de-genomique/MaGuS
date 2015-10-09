@@ -167,10 +167,11 @@ OUTPUT
 -${prefix}_tags_coordinate.txt: File containing anchored tags on assembly sorted by mapping position
 
   col 1: scaffold ID
-  col 2: position\n
-  col 3: tagId\n
+  col 2: position
+  col 3: tagId
   col 4: rank
   col 5: group ID
+  
 -${prefix}_anchored_assembly.txt: MaGuS format File of anchored scaffolds on the genome map
 
   col 1: group ID                     
