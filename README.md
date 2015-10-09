@@ -2,13 +2,13 @@
 MaGuS (Map-GUided Scaffolding) is a scaffolder and a reference-free evaluator of assembly quality. It uses a draft genome assembly, a genome map, and high-throughput sequencing paired-end data. It has been succesfully tested on the Arabidopsis genome with Illumina reads and a Whole-Genome Profiling (WGP) map.
 
 MaGuS run the five following steps :
-
+```
 - wgp2map: create a map genome file based on WGP data.
 - map2qc: analyse the assembly quality based on colinearity between the assembly and the map.
 - map2links: create links (map-links) between scaffolds .
 - pairs2links: use NGS data to validate the map-links, orient the scaffolds and estimate the gaps size and create a '.de'.
 - links2scaf: output the new final assembly in fasta format.
-
+```
 The use of MaGuS is not restricted to WGP data, other map types can be used. However they have to be formatted in the MaGuS map format (see below).
 
 MaGuS is distributed open-source under CeCILL FREE SOFTWARE LICENSE. Check out http://www.cecill.info/ for more information about the contents of this license.
