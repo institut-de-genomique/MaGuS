@@ -155,7 +155,8 @@ sub checkPairs2links ($$$) {
 	$synopsis .= "OPTIONAL PARAMETERS:\n";	
 	$synopsis .= "\t-v <string>\tpath to samtools\t(default: \$PATH)\n";
 	$synopsis .= "\t-p <string>\tprefix for output files";
-	$synopsis .= "\t(default: magus)\n\n";
+	$synopsis .= "\t(default: magus)\n";
+	$synopsis .= "\t-h\t\tthis help\n\n";
 	$synopsis .= "EXAMPLE:\n\tmagus pairs2links -f Arabidopsis.fa -l links_file.txt -b mapping_library1.bam,3500,600,101 -b mapping_library2.bam,6000,1000,151 -v /env/bin/PathToSamtools -p Arabido\n\n";
 	
 #	$synopsis .= "\n\n This module looks for proofs between putative links by using mate pair sequences.\n";
@@ -292,6 +293,7 @@ sub checkLinks2scaf ($$) {
 	$synopsis .= "\t-z <string>\tpath to sga\t(default: \$PATH)\n";
 	$synopsis .= "\t-g <string>\tpath to getseq\t(default: \$PATH)\n";
 	$synopsis .= "\t-p <string>\tprefix for output files\t(default: magus)\n";
+	$synopsis .= "\t-h\t\tthis help\n\n";
 	$synopsis .= "EXAMPLE:\n\tmagus links2scaf -f Arabidopsis.fa -c links.de -z /env/bin/PathToSga -g /env/bin/PathToGetseq -p Arabido\n\n";
 #	$synopsis .= "\n This module outputs the final assembly by using validated links.\n";
 #	$synopsis .= " It needs the links file and the first assembly.\n";
@@ -379,7 +381,8 @@ sub checkMap2qc ($$$) {
 	$synopsis .= "\t-e <int>\testimate_size: genome estimate size (bp)\n";
 	$synopsis .= "\t-s <string>\ttags_coordinates.txt: sorted file according to mapping position of tags \n\n";
 	$synopsis .= "OPTIONAL PARAMETERS:\n";		
-	$synopsis .= "\t-p <string>\tprefix for output files (default: magus)\n\n";
+	$synopsis .= "\t-p <string>\tprefix for output files (default: magus)\n";
+	$synopsis .= "\t-h\t\tthis help\n\n";
 	$synopsis .= "EXAMPLE:\n\tmagus map2qc -f Arabidopsis.fa -e 120000000 -s tags_coordinates.txt -p Arabido\n\n";
 #	$synopsis .= "This module gives some quality metrics about new assembly.\n";
 #	$synopsis .= "It takes in entry magus file prefix_ordered_tags.txt and the old assembly fasta file.\n\n";

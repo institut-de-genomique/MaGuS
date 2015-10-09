@@ -1,0 +1,193 @@
+#!/usr/bin/perl -w
+
+################################################################################
+# *
+# * Copyright Carole Dossat  / Institut de Genomique / DSV / CEA
+# *                            <cdossat@genoscope.cns.fr>
+# *           Jean-Marc Aury / Institut de Genomique / DSV / CEA
+# *                            <jmaury@genoscope.cns.fr>
+# *			  Amin Madoui    / Institut de Genomique / DSV / CEA
+# *                            <amadoui@genoscope.cns.fr>
+# *
+# * This software, called MAGUS is a computer program whose purpose is to
+# * improve assemblies by using maps and NGS sequencing technologies
+# *
+# * This software is governed by the CeCILL license under French law and
+# * abiding by the rules of distribution of free software.  You can  use,
+# * modify and/ or redistribute the software under the terms of the CeCILL
+# * license as circulated by CEA, CNRS and INRIA at the following URL
+# * "http://www.cecill.info".
+# *
+# * As a counterpart to the access to the source code and  rights to copy,
+# * modify and redistribute granted by the license, users are provided only
+# * with a limited warranty  and the software's author,  the holder of the
+# * economic rights,  and the successive licensors  have only  limited
+# * liability.
+# *
+# * In this respect, the user's attention is drawn to the risks associated
+# * with loading,  using,  modifying and/or developing or reproducing the
+# * software by the user in light of its specific status of free software,
+# * that may mean  that it is complicated to manipulate,  and  that  also
+# * therefore means  that it is reserved for developers  and  experienced
+# * professionals having in-depth computer knowledge. Users are therefore
+# * encouraged to load and test the software's suitability as regards their
+# * requirements in conditions enabling the security of their systems and/or
+# * data to be ensured and,  more generally, to use and operate it in the
+# * same conditions as regards security.
+# *
+# * The fact that you are presently reading this means that you have had
+# * knowledge of the CeCILL license and that you accept its terms.
+################################################################################
+
+use strict;
+use Getopt::Long;
+use Switch;
+
+use Magus::Magus;
+
+
+### VARIABLES ###
+
+#my $usage = "\nMAGUS is a \"MAp GUided Scaffolding\" modular tool.\n";
+#my $usage .= "\nIt was implemented in a modular software based on fives steps.\n\n";
+#my $usage .= "\t\tUsage: magus [wgp2map|map2links|pairs2links|links2scaf|map2qc|all] -help -prefix -binPath path\n";
+my $usage .= "Version 1.0.1\n\nUsage: magus <command> [options] [-h]\n";
+#$usage .= "Choose your module : (more help for each step whith -h, i.e. : magus wgp2map -h)\n";
+$usage .= "\t wgp2map \t sort anchored tags in a MAGUS format file\n";
+$usage .= "\t map2qc \t evaluate assembly quality\n"; 
+$usage .= "\t map2links \t create the map-links between scaffolds\n"; 
+$usage .= "\t pairs2links \t validate the map-links and create the .de file\n"; 
+$usage .= "\t links2scaf \t perform scaffolding\n"; 
+$usage .= "\t all \t\t do wgp2map-map2links-pairs2links-links2scaf-map2qc\n"; 
+
+#$usage .= "\nChoose your general options : \n";
+#$usage .= "\t -help :\t specific help for each step\n"; 
+#$usage .= "\t -prefix :\t need for output files (default : magus)\n";
+#$usage .= "\t -sam :\t path where is samtools binary\n";
+#$usage .= "\t -sga :\t path where is SGA binary\n";
+#$usage .= "\t -r :\t path where is R binary\n";
+#$usage .= "\t -flen :\t path where is fastalength\n";
+#$usage .= "\t -getseq :\t path where is getseq\n";
+
+
+my $help = "";
+my $prefix = "magus";
+my $mapFile = "";
+my $tagsFile = "";
+my $scaffoldsFile = "";
+my @readsData = ();
+my $checkedTagsFile = "";
+my $linksFile = "";
+my $connectionsFile = "";
+my $connectionsLog = "";
+my $orderedTagsFile = "";
+my $statsFile = "";
+my $binPath = "/env/cns/ARCH/x64/bin/"; ## FOR TESTS
+my ($samtoolsPath,$sgaPath,$RPath,$fastalengthPath,$getseqPath) = ("","","","","");
+$sgaPath = "/env/cns/opt/sga-master/SGA/"; ## FOR TESTS
+my $genomeSize = 0;
+
+
+#unless(GetOptions(
+#        "wgp=s" 	=> \$mapFile,
+#        "tags=s" 	=> \$tagsFile,
+#        "scaff=s" 	=> \$scaffoldsFile,
+#        "reads=s" 	=> \@readsData, # add library size, std dev and reads size
+#        "anchors=s" => \$checkedTagsFile,
+#        "links=s"   => \$linksFile,
+#        "connect=s" => \$connectionsFile,
+#        "order=s"   => \$orderedTagsFile,
+#        "stats=s"   => \$statsFile,
+#        "bin=s" => \$binPath,
+#        "sam" => \$samtoolsPath,
+#        "sga"   => \$samtoolsPath,
+#        "R"     => \$RPath,
+#        "flen" => \$fastalengthPath,
+#        "getseq" => \$getseqPath,
+#        "prefix=s" 	=> \$prefix,
+#        "genome=i"  => \$genomeSize,
+#        "help"   	=> \$help, 
+#)) {die $usage;}
+
+
+unless(GetOptions(
+        "w=s" 	=> \$mapFile,
+        "t=s" 	=> \$tagsFile,
+        "f=s" 	=> \$scaffoldsFile,
+        "b=s" 	=> \@readsData, # add library size, std dev and reads size
+        "a=s" => \$checkedTagsFile,
+        "l=s"   => \$linksFile,
+        "c=s" => \$connectionsFile,
+        "s=s"   => \$orderedTagsFile,
+        "x=s"   => \$statsFile,
+        "m=s" => \$binPath,
+        "v=s" => \$samtoolsPath,
+        "z=s"   => \$sgaPath,
+        "r=s"     => \$RPath,
+        "q=s" => \$fastalengthPath,
+        "g=s" => \$getseqPath,
+        "p=s" 	=> \$prefix,
+        "e=i"  => \$genomeSize,
+        "h"   	=> \$help, 
+)) {die $usage;}
+
+if (scalar(@ARGV) == 0) {
+	die "\n$usage\n";
+}
+
+if (scalar(@ARGV) > 1) {
+	die "\n$usage";
+}
+
+if ($checkedTagsFile eq "") {
+	$checkedTagsFile = "${prefix}_anchored_assembly.txt" if ($ARGV[0] eq "all");
+}
+if ($orderedTagsFile eq "") {
+	$orderedTagsFile = "${prefix}_tags_coordinate.txt";
+}
+if ($linksFile eq "") {
+	$linksFile = "${prefix}_map_links.txt";
+}
+my $badLinksFile = "${prefix}_unvalidated_map_links.txt";
+if ($connectionsFile eq "") {
+	$connectionsFile = "${prefix}_validated_map_links.de";
+}
+if ($connectionsLog eq "") {
+	$connectionsLog = "${prefix}_validated_map_links.log";
+}
+my $sgaScaffFile = "${prefix}_sga.scaf";
+my $sgaScaffLog = "${prefix}_sga_scaffold.log";
+my $newScaffFile = "${prefix}_scaffolds.fa";
+my $newScaffLog = "${prefix}_sga_scaffold2fasta.log";
+my $sgaLostFile = "${prefix}_sga_scaf_unused.txt";
+my $scaffLostFile = "${prefix}_unused_scaffolds.fa";
+my $allScaffFile = "${prefix}_final_scaffolds.fa";
+if ($statsFile eq "") {
+	$statsFile = "${prefix}_quality_metrics.txt";
+}
+
+### MAIN ###
+
+switch ($ARGV[0]) {
+    case "wgp2map"     {Magus::Magus::checkWgp2map($help,$mapFile,$tagsFile); Magus::Magus::wgp2map($mapFile,$samtoolsPath,$tagsFile,$checkedTagsFile,$orderedTagsFile)}
+    case "map2qc"      {Magus::Magus::checkMap2qc($help,$scaffoldsFile,$genomeSize); Magus::Magus::map2qc($orderedTagsFile,$scaffoldsFile,$statsFile,$genomeSize,$prefix,$RPath,$fastalengthPath)}
+    case "map2links"   {Magus::Magus::checkMap2links($help,$checkedTagsFile); Magus::Magus::map2links($checkedTagsFile,$linksFile)}
+    case "pairs2links" {Magus::Magus::checkPairs2links($help,$scaffoldsFile,\@readsData); Magus::Magus::pairs2links($samtoolsPath,$fastalengthPath,\@readsData,$scaffoldsFile,$linksFile,$badLinksFile,$connectionsFile,$connectionsLog)}
+    case "links2scaf"  {Magus::Magus::checkLinks2scaf($help,$scaffoldsFile); Magus::Magus::links2scaf($connectionsFile,$sgaScaffFile,$scaffoldsFile,$sgaScaffLog,$newScaffFile,$newScaffLog,$sgaLostFile,$scaffLostFile,$allScaffFile,$sgaPath,$getseqPath)}    
+    case "all"         {Magus::Magus::checkAll($help,$mapFile,$tagsFile,$checkedTagsFile,$scaffoldsFile,\@readsData,$genomeSize); 
+    					Magus::Magus::wgp2map($mapFile,$samtoolsPath,$tagsFile,$checkedTagsFile,$orderedTagsFile); 
+    					Magus::Magus::map2qc($orderedTagsFile,$scaffoldsFile,$statsFile,$genomeSize,$prefix,$RPath,$fastalengthPath);
+    					Magus::Magus::map2links($checkedTagsFile,$linksFile);
+    					Magus::Magus::pairs2links($samtoolsPath,$fastalengthPath,\@readsData,$scaffoldsFile,$linksFile,$badLinksFile,$connectionsFile,$connectionsLog);
+    					Magus::Magus::links2scaf($connectionsFile,$sgaScaffFile,$scaffoldsFile,$sgaScaffLog,$newScaffFile,$newScaffLog,$sgaLostFile,$scaffLostFile,$allScaffFile,$sgaPath,$getseqPath)}
+    else               {print $usage}
+}
+
+### CHECK OPTIONS ###
+
+if ($help) {
+	die $usage;
+}
+
+
+
