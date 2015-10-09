@@ -88,7 +88,7 @@ example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2
 
 ### Options
 
-#### Options for all (wgp2map-map2links-pairs2links-links2scaf-map2qc)
+##### Options for all (wgp2map-map2links-pairs2links-links2scaf-map2qc)
 ```
          -w <string>    wgpFile: WGP data
          -t <string>    tags.bam: tags alignment on the assembly (BAM)
@@ -111,15 +111,15 @@ OPTIONAL PARAMETERS:
          -h             this help
 
 ```
+##### Options for wgp2map
+        -w <string>     wgpFile: WGP data
+        -t <string>     tags.bam: tags alignment on the assembly (BAM)
+
+OPTIONAL PARAMETERS:
+        -p <string>     prefix for output files (default : magus)
+        -h              this help
 
 
-### Inputs
-
-         -w <string>    wgpFile: WGP data
-         -t <string>    tags.bam: tags alignment on the assembly (BAM)
-         -f <string>    assembly.fa: assembly file (FASTA)
-         -e <int>       estimate_size: genome estimate size (bp)
-         -b <string>    file.bam,m,sd,s: paired reads alignment (BAM), library median size (bp), library standart deviation (bp), reads size (bp)
 
 
 ### Output
