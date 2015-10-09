@@ -89,7 +89,7 @@ example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2
 Options
 --------------
 
-- ### Options for all (wgp2map-map2links-pairs2links-links2scaf-map2qc)
+- ##### Options for all (wgp2map-map2links-pairs2links-links2scaf-map2qc)
 
          -w <string>    wgpFile: WGP data
          -t <string>    tags.bam: tags alignment on the assembly (BAM)
@@ -128,7 +128,7 @@ OPTIONAL PARAMETERS:
 
         OPTIONAL PARAMETERS:
         -p <string>     prefix for output files (default: magus)
-
+        -h              this help
 
 - ##### Options for map2links
 
@@ -140,7 +140,6 @@ OPTIONAL PARAMETERS:
         -p <string>     prefix for output files (default: magus)
         -h              this help
 
-
 - ##### Options for pairs2links
 
         -f <string>     assembly.fa: assembly file (FASTA)
@@ -150,7 +149,7 @@ OPTIONAL PARAMETERS:
         OPTIONAL PARAMETERS:
         -v <string>     path to samtools        (default: $PATH)
         -p <string>     prefix for output files (default: magus)
-
+        -h              this help
 
 - ##### Options for links2scaf
 
@@ -161,6 +160,7 @@ OPTIONAL PARAMETERS:
         -z <string>     path to sga     (default: $PATH)
         -g <string>     path to getseq  (default: $PATH)
         -p <string>     prefix for output files (default: magus)
+        -h              this help
 
 ### Output
 
