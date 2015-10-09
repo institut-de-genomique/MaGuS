@@ -111,7 +111,7 @@ OPTIONAL PARAMETERS:
          -h             this help
 
 ```
-##### Options for wgp2map
+- Options for wgp2map
         -w <string>     wgpFile: WGP data
         -t <string>     tags.bam: tags alignment on the assembly (BAM)
 
