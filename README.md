@@ -167,18 +167,18 @@ OUTPUT
 -${prefix}_tags_coordinate.txt: File containing anchored tags on assembly sorted by mapping position
 
   col 1: scaffold ID  
-  col 2: position
-  col 3: tagId
-  col 4: rank
-  col 5: group ID
+  col 2: position 
+  col 3: tagId  
+  col 4: rank 
+  col 5: group ID 
   
 -${prefix}_anchored_assembly.txt: MaGuS format File of anchored scaffolds on the genome map
 
-  col 1: group ID                     
-  col 2: scaffold ID
-  col 3: minimum tag rank
-  col 4: maximum tag rank
-  col 5: number of tags
+  col 1: group ID                 
+  col 2: scaffold ID  
+  col 3: minimum tag rank 
+  col 4: maximum tag rank 
+  col 5: number of tags 
 
 - map2links output
 
@@ -186,28 +186,28 @@ OUTPUT
 
 - pairs2links output
 
--${prefix}_validated_map_links.de: map-links validated by paired reads in .de format (SGA specific format)
--${prefix}_unvalidated_map_links.txt: list of map-links not validated by the paired reads
--${prefix}_besst_validated_map_links.log: links statistics
+-${prefix}_validated_map_links.de: map-links validated by paired reads in .de format (SGA specific format)  
+-${prefix}_unvalidated_map_links.txt: list of map-links not validated by the paired reads 
+-${prefix}_besst_validated_map_links.log: links statistics  
 
 
 - links2scaf output
 
--${prefix}_final_scaffolds.fa: the final assembly (FASTA)
--${prefix}_scaffolds.fa: SGA scaffolding output (FASTA)
--${prefix}_unused_scaffolds.fa: scaffold not used for scaffolding step (FASTA)
--${prefix}_sga_scaf_unused.txt: list of scaffolds not considered by SGA
--${prefix}_sga.scaf: scaffolding information (SGA specific format) 
--${prefix}_sga_scaffold2fasta.log: scaffolding statistics (SGA specific format)
--${prefix}_sga_scaffold.log: scaffolding statistics/informations (SGA specific format) 
+-${prefix}_final_scaffolds.fa: the final assembly (FASTA) 
+-${prefix}_scaffolds.fa: SGA scaffolding output (FASTA) 
+-${prefix}_unused_scaffolds.fa: scaffold not used for scaffolding step (FASTA)  
+-${prefix}_sga_scaf_unused.txt: list of scaffolds not considered by SGA 
+-${prefix}_sga.scaf: scaffolding information (SGA specific format)  
+-${prefix}_sga_scaffold2fasta.log: scaffolding statistics (SGA specific format) 
+-${prefix}_sga_scaffold.log: scaffolding statistics/informations (SGA specific format)  
 
 - map2qc output
 
--prefix_An.csv: Anx values for x = 1 to 100%
--prefix_AnA.csv: AnAx values for x = 1 to 100%
--prefix_AnG.csv: AnGx vlaues for x = 1 to 100%
--prefix_quality_metrics.png: Anx, AnAx and AnGx plots
--prefix_quality_metrics.txt: summary quality metrics of Anx, AnAx and AnGx values for x=0.5, x=0.75 and x=0.9
+-prefix_An.csv: Anx values for x = 1 to 100%  
+-prefix_AnA.csv: AnAx values for x = 1 to 100%  
+-prefix_AnG.csv: AnGx vlaues for x = 1 to 100%  
+-prefix_quality_metrics.png: Anx, AnAx and AnGx plots 
+-prefix_quality_metrics.txt: summary quality metrics of Anx, AnAx and AnGx values for x=0.5, x=0.75 and x=0.9 
 
 
 ### More informations
