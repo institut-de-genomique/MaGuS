@@ -169,7 +169,7 @@ OUTPUT
   col 1: scaffold ID  
   col 2: position    
   col 3: tagId  
-  col 4: rank 
+  col 4: rank	
   col 5: group ID 
   
 -${prefix}_anchored_assembly.txt: MaGuS format File of anchored scaffolds on the genome map
