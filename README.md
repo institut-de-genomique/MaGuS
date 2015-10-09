@@ -91,7 +91,6 @@ Options
 
 - ### Options for all (wgp2map-map2links-pairs2links-links2scaf-map2qc)
 
-```
          -w <string>    wgpFile: WGP data
          -t <string>    tags.bam: tags alignment on the assembly (BAM)
          -f <string>    assembly.fa: assembly file (FASTA)
@@ -112,7 +111,6 @@ OPTIONAL PARAMETERS:
          -p <string>    prefix for output files (default: magus)
          -h             this help
 
-```
 - ##### Options for wgp2map
 
         -w <string>     wgpFile: WGP data
