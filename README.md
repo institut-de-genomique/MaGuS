@@ -53,9 +53,7 @@ $ magus all -wgp tagsWgp.out -tags tags.bam -reads mp1.bam,5350,1000,76 -reads m
 RUNNING MaGuS
 --------------
 
-The directory "MaGuS_example_arabido" contains the example files to test MaGuS.
-
-There are two ways to run MaGuS. The most common way to run it is:
+There are two ways to run MaGuS. The most common way is:
 ```
  magus all -w wgpFile -t tags.bam -f assembly.fa -e estimate_size -b file.bam,m,sd,s
 ```
