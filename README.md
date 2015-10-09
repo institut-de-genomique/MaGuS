@@ -187,13 +187,13 @@ OUTPUT
 - pairs2links output
 
 -${prefix}_validated_map_links.de: map-links validated by paired reads in .de format (SGA specific format)  
--${prefix}_unvalidated_map_links.txt: list of map-links not validated by the paired reads 
+-${prefix}_unvalidated_map_links.txt: list of map-links not validated by the paired reads	
 -${prefix}_besst_validated_map_links.log: links statistics  
 
 
 - links2scaf output
 
--${prefix}_final_scaffolds.fa: the final assembly (FASTA) 
+-${prefix}_final_scaffolds.fa: the final assembly (FASTA)	
 -${prefix}_scaffolds.fa: SGA scaffolding output (FASTA) 
 -${prefix}_unused_scaffolds.fa: scaffold not used for scaffolding step (FASTA)  
 -${prefix}_sga_scaf_unused.txt: list of scaffolds not considered by SGA 
