@@ -76,20 +76,24 @@ sub getScaffoldslengths ($$) {
 
 sub checkWgp2map ($$$) {
 	my ($help,$mapFile,$tagsFile) = @_;
-	my $synopsis = "SYNOPSIS : magus wg2map -wgp wgpFile -tags tagsFile (-prefix)\n";
-	$synopsis .= "\t -wgpFile : file done by keygene with wgp format.\n";
-	$synopsis .= "\t -tagsFile : bam file tags vs assembly.\n";
-	$synopsis .= "\t -prefix : prefix for created files.\n";
-	$synopsis .= "\t\t Default : magus\n";
+	my $synopsis = "\nVersion 1.0.1\n\nUsage: magus wg2map -w wgpFile -t tags.bam [options] [-h]\n";
+	$synopsis .= "\t-w <string>\twgpFile: WGP data\n";
+	$synopsis .= "\t-t <string>\ttags.bam: tags alignment on the assembly (BAM)\n\n";
+	$synopsis .= "OPTIONAL PARAMETERS:\n";
+	$synopsis .= "\t-p <string>\tprefix for output files";
+	$synopsis .= "\t(default : magus)\n";
+	$synopsis .= "\t-h\t\tthis help\n\n";
+	$synopsis .= "EXAMPLE:\n\tmagus wg2map -w wgpFile -t tags.bam -p Arabido\n\n";
+	
 	
 	if ($help) {
 		die $synopsis;
 	}
 	if ($mapFile eq "") {
-		die "You must define a map file !\n $synopsis";
+		die "$synopsis";
 	}
 	if ($tagsFile eq "") {
-		die "You must define an assembly file !\n $synopsis";
+		die "$synopsis";
 	}
 }
 
@@ -110,21 +114,22 @@ sub wgp2map ($$$$$) {
 
 sub checkMap2links ($$) {
 	my ($help,$checkedTagsFile) = @_;
-	my $synopsis = "SYNOPSIS : magus map2links (-anchors) (-links) (-prefix) (-binPath) (-h)\n";
-	$synopsis .= "\t -anchors : magus format file (input).\n";
-	$synopsis .= "\t\t Format : #contigBac      scaffoldId      minimum rank    maximum rank     number of tags\n";
-	$synopsis .= "\t\t Default : prefix_anchorage.txt\n";
-	$synopsis .= "\t -links : magus file (output).\n"; 
-	$synopsis .= "\t\t Format : id1_id2 where id is a scaffold name.\n";
-	$synopsis .= "\t\t Default : prefix_map_links.txt\n";
-	$synopsis .= "\t -prefix : prefix for created files.\n";
-	$synopsis .= "\t\t Default : magus\n";
-	
+	my $synopsis = "\nVersion 1.0.1\n\nUsage: magus map2links -a anchoring_file.txt [options] [-h]\n";
+	$synopsis .= "\t-a <string>\tanchoring_file.txt: anchored assembly (wgp2map output)\n\n";
+	$synopsis .= "OPTIONAL PARAMETERS:\n";	
+	$synopsis .= "\t-l <string>\toutput file containing links between contigs/scaffolds"; 
+	$synopsis .= "\t(default: prefix_map_links.txt)\n";
+	$synopsis .= "\t-m <string>\tBin path\t(default: \$PATH)\n";
+	$synopsis .= "\t-p <string>\tprefix for output files";
+	$synopsis .= "\t(default: magus)\n";
+	$synopsis .= "\t-h\t\tthis help\n\n";
+	$synopsis .= "EXAMPLE:\n\tmagus map2links -a anchoring_file.txt -l links_file.txt -m /env/bin/";
+	$synopsis .= "\n\tmagus map2links -a anchoring_file.txt -m /env/bin/ -p Arabido\n\n";
 	if ($help) {
 		die $synopsis;
 	}
-	if ($checkedTagsFile eq "") {
-		die "You must define an anchor magus file with -anchors !\n $synopsis";
+	if (! -f $checkedTagsFile) {
+		die "$synopsis";
 	}
 }
 
@@ -143,25 +148,28 @@ sub map2links ($$) {
 
 sub checkPairs2links ($$$) {
 	my ($help,$scaffoldsFile,$readsData) = @_;
-	my $synopsis = "\nSYNOPSIS : magus pairs2links -reads file.bam,5000,1000,101 -scaff file.fa (-prefix magus) (-links magus_map_links.txt)\n\n";
-	$synopsis .= "\t -reads : bam file name, bank mean, bank std dev, reads size.\n";
-	$synopsis .= "\t -scaff : fasta assembly.\n";
-	$synopsis .= "\t -links : magus format file id1_id2. Default is prefix_map_links.txt.\n";
-	$synopsis .= "\t -prefix : prefix for created files.\n";
-	$synopsis .= "\t\t Default : magus\n";
-	$synopsis .= "\t -sam : path for binary samtools.\n";
-	$synopsis .= "\n This module looks for proofs between putative links by using mate pair sequences.\n";
-	$synopsis .= " It needs reads file and assembly file.\n";
-	$synopsis .= "\n Outputs are 2 files : one contains the links with de format (prefix_new_connections.de) and the other contains statistical logs (prefix_new_connections.log).\n\n";
+	my $synopsis = "\nVersion 1.0.1\n\nUsage: magus pairs2links -f assembly.fa -l links_file.txt -b file.bam,m,sd,s [options] [-h]\n";
+	$synopsis .= "\t-f <string>\tassembly.fa: assembly file (FASTA)\n";
+	$synopsis .= "\t-l <string>\tlinks_file.txt: file containing links between contigs/scaffolds\n";
+	$synopsis .= "\t-b <string>\tfile.bam,m,sd,s: paired reads alignment (BAM), library median size (bp), library standart deviation (bp), reads size (bp)\n\n";
+	$synopsis .= "OPTIONAL PARAMETERS:\n";	
+	$synopsis .= "\t-v <string>\tpath to samtools\t(default: \$PATH)\n";
+	$synopsis .= "\t-p <string>\tprefix for output files";
+	$synopsis .= "\t(default: magus)\n\n";
+	$synopsis .= "EXAMPLE:\n\tmagus pairs2links -f Arabidopsis.fa -l links_file.txt -b mapping_library1.bam,3500,600,101 -b mapping_library2.bam,6000,1000,151 -v /env/bin/PathToSamtools -p Arabido\n\n";
+	
+#	$synopsis .= "\n\n This module looks for proofs between putative links by using mate pair sequences.\n";
+#	$synopsis .= " It needs reads file and assembly file.\n";
+#	$synopsis .= "\n Outputs are 2 files : one contains the links with de format (prefix_new_connections.de) and the other contains statistical logs (prefix_new_connections.log).\n\n";
 	
 	if ($help) {
 		die $synopsis;
 	}
 	if ($scaffoldsFile eq "") {
-		die "You must define an assembly file !\n $synopsis";
+		die "$synopsis";
 	}
 	if (scalar(@$readsData) == 0 ) {
-		die "You must define at least one reads file !\n $synopsis";
+		die "$synopsis";
 	} 
 }
 
@@ -277,22 +285,23 @@ sub execCmd ($) {
 
 sub checkLinks2scaf ($$) {
 	my ($help,$scaffoldsFile) = @_;
-	my $synopsis = "SYNOPSIS : magus links2scaf -scaff file (-connect file) (-prefix name) (-sga path) (-getseq path)\n";
-	$synopsis .= "\t -connect links.de : file with the links in de format. (optionnal, default prefix_validated_map_links.de).\n";
-	$synopsis .= "\t -scaff : fasta assembly.\n";
-	$synopsis .= "\t -prefix : prefix for created files.\n";
-	$synopsis .= "\t\t Default : magus\n";
-	$synopsis .= "\t -sga : path for binary SGA.\n";
-	$synopsis .= "\t -getseq : path for getseq.\n";
-	$synopsis .= "\n This module outputs the final assembly by using validated links.\n";
-	$synopsis .= " It needs the links file and the first assembly.\n";
-	$synopsis .= "\n Outputs are sga output file, sga log file and final assembly file prefix_all_scaffolds.fa\n\n";
+	my $synopsis = "\nVersion 1.0.1\n\nUsage: magus links2scaf -f assembly.fa -c links.de [options] [-h]\n";
+	$synopsis .= "\t-f <string>\tassembly.fa: assembly file (FASTA)\n";
+	$synopsis .= "\t-c <string>\tlinks.de: file containing links in DE format\n\n";
+	$synopsis .= "OPTIONAL PARAMETERS:\n";	
+	$synopsis .= "\t-z <string>\tpath to sga\t(default: \$PATH)\n";
+	$synopsis .= "\t-g <string>\tpath to getseq\t(default: \$PATH)\n";
+	$synopsis .= "\t-p <string>\tprefix for output files\t(default: magus)\n";
+	$synopsis .= "EXAMPLE:\n\tmagus links2scaf -f Arabidopsis.fa -c links.de -z /env/bin/PathToSga -g /env/bin/PathToGetseq -p Arabido\n\n";
+#	$synopsis .= "\n This module outputs the final assembly by using validated links.\n";
+#	$synopsis .= " It needs the links file and the first assembly.\n";
+#	$synopsis .= "\n Outputs are sga output file, sga log file and final assembly file prefix_all_scaffolds.fa\n\n";
 	
 	if ($help) {
 		die $synopsis;
 	}
 	if ($scaffoldsFile eq "") {
-		die "You must define an assembly file !\n $synopsis";
+		die "$synopsis";
 	}
 }
 
@@ -365,23 +374,24 @@ sub links2scaf ($$$$$$$$$$$) {
 
 sub checkMap2qc ($$$) {
 	my ($help,$scaffoldsFile,$genomeSize) = @_;
-	my $synopsis = "\nSYNOPSIS : magus map2qc -scaff assembly.fa -genome integer (-order magus_ordered_tags) (-prefix)\n";
-	$synopsis .= "\t -scaff : fasta file of the old assembly\n";
-	$synopsis .= "\t -genome : real size of the genome\n";
-	$synopsis .= "\t -order : magus format file with 5 fields (#scaffoldId     position        tagId   rank    contigBac). Default is prefix_ordered_tags.txt.\n";
-	$synopsis .= "\t -prefix : prefix for created files.\n";
-	$synopsis .= "\t\t Default : magus\n";
-	$synopsis .= "This module gives some quality metrics about new assembly.\n";
-	$synopsis .= "It takes in entry magus file prefix_ordered_tags.txt and the old assembly fasta file.\n\n";
+	my $synopsis = "\nVersion 1.0.1\n\nUsage: magus map2qc -f assembly.fa -e estimate_size -s tags_coordinates.txt [options] [-h]\n";
+	$synopsis .= "\t-f <string>\tassembly.fa: assembly file (FASTA)\n";
+	$synopsis .= "\t-e <int>\testimate_size: genome estimate size (bp)\n";
+	$synopsis .= "\t-s <string>\ttags_coordinates.txt: sorted file according to mapping position of tags \n\n";
+	$synopsis .= "OPTIONAL PARAMETERS:\n";		
+	$synopsis .= "\t-p <string>\tprefix for output files (default: magus)\n\n";
+	$synopsis .= "EXAMPLE:\n\tmagus map2qc -f Arabidopsis.fa -e 120000000 -s tags_coordinates.txt -p Arabido\n\n";
+#	$synopsis .= "This module gives some quality metrics about new assembly.\n";
+#	$synopsis .= "It takes in entry magus file prefix_ordered_tags.txt and the old assembly fasta file.\n\n";
 	
 	if ($help) {
 		die $synopsis;
 	}
 	if ($scaffoldsFile eq "") {
-		die "You must define an assembly file !\n $synopsis";
+		die "$synopsis";
 	}
 	if ($genomeSize == 0 ) {
-		die "You must give the real genome size !\n $synopsis";
+		die "$synopsis";
 	} 
 }
 
@@ -416,9 +426,9 @@ sub addNmetrics ($$$$$) {
 	
 	close GRAPH;
 	
-	print $log "${name}50 size : $tab[49] pb\n";
-	print $log "${name}75 size : $tab[74] pb\n";
-	print $log "${name}90 size : $tab[89] pb\n";
+	print $log "${name}50 size: $tab[49] pb\n";
+	print $log "${name}75 size: $tab[74] pb\n";
+	print $log "${name}90 size: $tab[89] pb\n";
 }
 
 sub makeGraphs ($$$$$) {
@@ -539,9 +549,9 @@ sub map2qc ($$$$$$$) {
 	open (my $handleMetrics, ">$statsFile")
 		or die "Cannot open statistics file : $statsFile : $!\n";
 	
-	print $handleMetrics "\nassembly size : $assemblySize\n";
-	print $handleMetrics "TA : amount of tags aligned on assembly : $tagsMapped\n";
-	print $handleMetrics "TC : consistent couple of tags : $tagsCouples\n";
+	print $handleMetrics "\nassembly size: $assemblySize\n";
+	print $handleMetrics "TA: amount of tags aligned on assembly : $tagsMapped\n";
+	print $handleMetrics "TC: consistent couple of tags : $tagsCouples\n";
 
 	my $plotFile = "${prefix}_quality_metrics.png";
 	my $AnFile = "${prefix}_An.csv";
@@ -552,11 +562,11 @@ sub map2qc ($$$$$$$) {
 	addNmetrics (\@anchoredSegLength,"AnA",$assemblySize,$handleMetrics,$AnAFile); # N Anchored vs all assembly
 	addNmetrics (\@anchoredSegLength,"AnG",$genomeSize,$handleMetrics,$AnGFile); # N Anchored vs genome size
 	
-	print $handleMetrics "anchored scaffold : $anchoredScaffolds (".int($anchoredScaffolds*100/$allScaffolds)."%)\n";
-	print $handleMetrics "cumulative size of anchored scaffolds : $anchoredScaffoldsLength (".int($anchoredScaffoldsLength*100/$assemblySize)."%)\n";
-	print $handleMetrics "number of scaffolds without tags : $nonAnchoredScaffolds (".int($nonAnchoredScaffolds*100/$allScaffolds)."%)\n";
-	print $handleMetrics "cumulative size scaffolds without tags : $nonAnchoredScaffoldsLength (".int($nonAnchoredScaffoldsLength*100/$assemblySize)."%)\n";
-	print $handleMetrics "mean of tags by scaffold : ".int($tagsMapped/$allScaffolds)."\n\n";
+	print $handleMetrics "anchored scaffolds: $anchoredScaffolds (".int($anchoredScaffolds*100/$allScaffolds)."%)\n";
+	print $handleMetrics "cumulative anchored scaffolds size: $anchoredScaffoldsLength (".int($anchoredScaffoldsLength*100/$assemblySize)."%)\n";
+	print $handleMetrics "number of scaffolds without tags: $nonAnchoredScaffolds (".int($nonAnchoredScaffolds*100/$allScaffolds)."%)\n";
+	print $handleMetrics "cumulative scaffolds size without tags: $nonAnchoredScaffoldsLength (".int($nonAnchoredScaffoldsLength*100/$assemblySize)."%)\n";
+	print $handleMetrics "mean of tags by scaffold: ".int($tagsMapped/$allScaffolds)."\n\n";
 	
 	close $handleMetrics;
 	
@@ -564,49 +574,67 @@ sub map2qc ($$$$$$$) {
 }
 
 sub checkAll ($$$$$$$) {
-	my ($help,$mapFile,$tagsFile,$checkedTagsFile,$scaffoldsFile,$readsRef,$genomeSize) = @_;
-	my $synopsis = "SYNOPSIS : magus all -wgp wgpFile -tags tagsFile -scaff assembly.fa -genome integer (-order file) (-anchors file) (-links file) -reads file.bam,5000,1000,101 ";
-	$synopsis .=  "(-sam path/) (-R path/) (-fleng path/) (-sga path/) (-getseq path/) (-prefix prefix) (-h)\n";
+	my ($help,$mapFile,$tagsFile,$checkedTagsFile,$scaffoldsFile,$readsData,$genomeSize) = @_;
 	
-	
-	$synopsis .= "\t -wgp : file done by keygene with wgp format.\n";
-	$synopsis .= "\t -tags : bam file tags vs assembly.\n";
-	$synopsis .= "\t -scaff : assembly in fasta format\n";
-	$synopsis .= "\t -genome : real size of the genome\n";
-	
-	$synopsis .= "\t -order : text file.\n";
-	$synopsis .= "\t\t Format : #scaffoldId     position        tagId   rank    contigBac\n";
-	$synopsis .= "\t\t Default : prefix_ordered_tags.txt\n";
-	
-	$synopsis .= "\t -anchors : text file.\n";
-	$synopsis .= "\t\t Format : #contigBac      scaffoldId      minimum rank    maximum rank     number of tags\n";
-	$synopsis .= "\t\t Default : prefix_anchorage.txt\n";
-	
-	$synopsis .= "\t -links : text file.\n"; 
-	$synopsis .= "\t\t Format : id1_id2 where id is a scaffold name.\n";
-	$synopsis .= "\t\t Default : prefix_map_links.txt\n";
-	
-	$synopsis .= "\t -reads : bam file name, bank mean, bank std dev, reads size.\n";
-	
-	$synopsis .= "\t -connect : file with the links in de format.\n";
-	$synopsis .= "\t\t Default : prefix_validated_map_links.de\n";
-	
-	$synopsis .= "\t -sam : path for binary samtools.\n";
-	$synopsis .= "\t -R : path for binary R.\n";
-	$synopsis .= "\t -flen : path for fastalength.\n";
-	$synopsis .= "\t -sga : path for binary SGA.\n";
-	$synopsis .= "\t -getseq : path for getseq.\n";
-	
-	$synopsis .= "\t -prefix : prefix for created files.\n";
+	my $synopsis = "\nVersion 1.0.1\n\nUsage: magus all -w wgpFile -t tags.bam -f assembly.fa -e estimate_size -b file.bam,m,sd,s [options] [-h]\n";
+	$synopsis .= "\t -w <string>\twgpFile: WGP data\n";
+	$synopsis .= "\t -t <string>\ttags.bam: tags alignment on the assembly (BAM)\n";
+	$synopsis .= "\t -f <string>\tassembly.fa: assembly file (FASTA)\n";
+	$synopsis .= "\t -e <int>\testimate_size: genome estimate size (bp)\n";
+	$synopsis .= "\t -b <string>\tfile.bam,m,sd,s: paired reads alignment (BAM), library median size (bp), library standart deviation (bp), reads size (bp)\n\n";;
+	$synopsis .= "OPTIONAL PARAMETERS:\n";
+	$synopsis .= "\t -s <string>\tsorted file according to mapping position of tags";
+	#$synopsis .= "\t(Format : #scaffoldId     position        tagId   rank    contigBac)\n";
+	$synopsis .= "\t(default : prefix_tags_coordinates.txt)\n";
+	$synopsis .= "\t -a <string>\tanchored tags on assembly";
+	#$synopsis .= "\t(Format : #groupID      scaffoldId      minimum rank    maximum rank     number of tags)\n";
+	$synopsis .= "\t(default : prefix_anchored_assembly.txt)\n";
+	$synopsis .= "\t -l <string>\toutput file containing links between contigs/scaffolds"; 
+	#$synopsis .= "\t\t(Format : id1_id2 where id is a scaffold name)\n";
+	$synopsis .= "\t(default : prefix_map_links.txt)\n";
+	$synopsis .= "\t -c <string>\tfile containing links in DE format";
+	$synopsis .= "\t(default : prefix_validated_map_links.de)\n";
+	$synopsis .= "\t -m <string>\tBin path\t(default: \$PATH)\n";
+	$synopsis .= "\t -v <string>\tpath to samtools\t(default: \$PATH)\n";
+	$synopsis .= "\t -r <string>\tpath to R\t(default: \$PATH)\n";
+	$synopsis .= "\t -q <string>\tpath to fastalength\t(default: \$PATH)\n";
+	$synopsis .= "\t -z <string>\tpath to sga\t(default: \$PATH)\n";
+	$synopsis .= "\t -g <string>\tpath to getseq\t(default: \$PATH)\n";
+	$synopsis .= "\t -p <string>\tprefix for output files\t(default: magus)\n";
+	$synopsis .= "\t -h\t\tthis help\n\n";
+	$synopsis .= "EXAMPLE:\n\tmagus all -w tagsWgp.out -t mapping.bam -f Arabidopsis.fa -b mapping_library1.bam,3500,600,101";
+	$synopsis .=  " -b mapping_library2.bam,6000,1000,151 -b mapping_library3.bam,9000,1400,251 -e 120000000 \n";
+	$synopsis .= "\tmagus all -w tagsWgp.out -t mapping.bam -f Arabidopsis.fa -b mapping_library1.bam,3500,600,101 -e 120000000 -s tags_coordinates.txt -a anchoring_file.txt -l links_file.txt -c links.de";
+	$synopsis .=  " -v /env/bin/PathToSamtools -r /env/bin/PathToR -q /env/bin/PathToFstlg -z /env/bin/PathToSga -g /env/bin/PathToGetseq\n";
+	$synopsis .= "\tmagus all -w tagsWgp.out -t mapping.bam -f Arabidopsis.fa -b mapping_library1.bam,3500,600,101 -e 120000000";
+	$synopsis .=  " -m /env/bin/ -p Arabido\n\n";
 	
 	if ($help) {
 		die $synopsis;
 	}
-	checkWgp2map($help,$mapFile,$tagsFile);
-	checkMap2qc($help,$scaffoldsFile,$genomeSize);
-	checkMap2links($help,$checkedTagsFile);
-	checkPairs2links($help,$scaffoldsFile,$readsRef);
-	checkLinks2scaf($help,$scaffoldsFile);
+	if ($mapFile eq "") {
+		die "$synopsis";
+	}
+	if ($tagsFile eq "") {
+		die "$synopsis";
+	}
+	if ($scaffoldsFile eq "") {
+		die "$synopsis";
+	}
+	if ($genomeSize == 0 ) {
+		die "$synopsis";
+	} 
+	if ($checkedTagsFile eq "") {
+		die "$synopsis";
+	}
+	if (scalar(@$readsData) == 0 ) {
+		die "$synopsis";
+	} 
+	#checkWgp2map($help,$mapFile,$tagsFile);
+	#checkMap2qc($help,$scaffoldsFile,$genomeSize);
+	#checkMap2links($help,$checkedTagsFile);
+	#checkPairs2links($help,$scaffoldsFile,$readsRef);
+	#checkLinks2scaf($help,$scaffoldsFile);
 }
 
 return 1;
