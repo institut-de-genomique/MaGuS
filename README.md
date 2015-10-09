@@ -88,7 +88,7 @@ example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2
 
 ### Options
 
-##### Options for all (wgp2map-map2links-pairs2links-links2scaf-map2qc)
+- ##### Options for all (wgp2map-map2links-pairs2links-links2scaf-map2qc)
 ```
          -w <string>    wgpFile: WGP data
          -t <string>    tags.bam: tags alignment on the assembly (BAM)
@@ -120,8 +120,47 @@ OPTIONAL PARAMETERS:
         -p <string>     prefix for output files (default : magus)
         -h              this help
 
+- ##### Options for map2qc
+
+        -f <string>     assembly.fa: assembly file (FASTA)
+        -e <int>        estimate_size: genome estimate size (bp)
+        -s <string>     tags_coordinates.txt: sorted file according to mapping position of tags
+
+OPTIONAL PARAMETERS:
+        -p <string>     prefix for output files (default: magus)
 
 
+- ##### Options for map2links
+
+        -a <string>     anchoring_file.txt: anchored assembly (wgp2map output)
+
+OPTIONAL PARAMETERS:
+        -l <string>     output file containing links between contigs/scaffolds  (default: prefix_map_links.txt)
+        -m <string>     Bin path        (default: $PATH)
+        -p <string>     prefix for output files (default: magus)
+        -h              this help
+
+
+- ##### Options for pairs2links
+
+        -f <string>     assembly.fa: assembly file (FASTA)
+        -l <string>     links_file.txt: file containing links between contigs/scaffolds
+        -b <string>     file.bam,m,sd,s: paired reads alignment (BAM), library median size (bp), library standart deviation (bp), reads size (bp)
+
+OPTIONAL PARAMETERS:
+        -v <string>     path to samtools        (default: $PATH)
+        -p <string>     prefix for output files (default: magus)
+
+
+- ##### Options for links2scaf
+
+        -f <string>     assembly.fa: assembly file (FASTA)
+        -c <string>     links.de: file containing links in DE format
+
+OPTIONAL PARAMETERS:
+        -z <string>     path to sga     (default: $PATH)
+        -g <string>     path to getseq  (default: $PATH)
+        -p <string>     prefix for output files (default: magus)
 
 ### Output
 
