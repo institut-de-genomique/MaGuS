@@ -13,7 +13,7 @@ The use of MaGuS is not restricted to WGP data, other map types can be used. How
 
 MaGuS is distributed open-source under CeCILL FREE SOFTWARE LICENSE. Check out http://www.cecill.info/ for more information about the contents of this license.
 
-MaGuS website http://www.genoscope.cns.fr/magus
+MaGuS website http://www.genoscope.cns.fr/externe/magus
 
 Contact : magus [a] genoscope [.] cns [.] fr
 
