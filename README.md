@@ -57,7 +57,7 @@ The directory "MaGuS_example_arabido" contains the example files to test MaGuS.
 
 ### Inputs
 
--wgp WGP sorted tags
+-w <string>    wgpFile: WGP data
 
 -tags tags alignment on the assembly of Arabidopsis (BAM).
 
