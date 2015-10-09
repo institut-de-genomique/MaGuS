@@ -58,6 +58,7 @@ There are two ways to run MaGuS. The most common way is:
  magus all -w wgpFile -t tags.bam -f assembly.fa -e estimate_size -b file.bam,m,sd,s
 ```
 
+
 User can also choose to run MaGuS pipeline step by step as:
 
 - step1:
@@ -84,7 +85,7 @@ magus links2scaf -f assembly.fa -c links.de
 OPTIONS
 --------------
 
-- ##### Options for all (wgp2map-map2links-pairs2links-links2scaf-map2qc)
+- ##### Options for all (wgp2map-map2qc-map2links-pairs2links-links2scaf)
 
          -w <string>    wgpFile: WGP data
          -t <string>    tags.bam: tags alignment on the assembly (BAM)
@@ -177,6 +178,13 @@ OUTPUT
   col 4: maximum tag rank	
   col 5: number of tags	
 
+- map2qc output	
+-prefix_An.csv: Anx values for x = 1 to 100%  
+-prefix_AnA.csv: AnAx values for x = 1 to 100%  
+-prefix_AnG.csv: AnGx vlaues for x = 1 to 100%  
+-prefix_quality_metrics.png: Anx, AnAx and AnGx plots 
+-prefix_quality_metrics.txt: summary quality metrics of Anx, AnAx and AnGx values for x=0.5, x=0.75 and x=0.9 
+
 - map2links output	
 -${prefix}_map_links.txt: list of map-links between scaffolds (scaf1_scaf2)
 
@@ -184,7 +192,6 @@ OUTPUT
 -${prefix}_validated_map_links.de: map-links validated by paired reads in .de format (SGA specific format)  
 -${prefix}_unvalidated_map_links.txt: list of map-links not validated by the paired reads	
 -${prefix}_besst_validated_map_links.log: links statistics  
-
 
 - links2scaf output	
 -${prefix}_final_scaffolds.fa: the final assembly (FASTA)	
@@ -194,13 +201,6 @@ OUTPUT
 -${prefix}_sga.scaf: scaffolding information (SGA specific format)  
 -${prefix}_sga_scaffold2fasta.log: scaffolding statistics (SGA specific format) 
 -${prefix}_sga_scaffold.log: scaffolding statistics/informations (SGA specific format)  
-
-- map2qc output	
--prefix_An.csv: Anx values for x = 1 to 100%  
--prefix_AnA.csv: AnAx values for x = 1 to 100%  
--prefix_AnG.csv: AnGx vlaues for x = 1 to 100%  
--prefix_quality_metrics.png: Anx, AnAx and AnGx plots 
--prefix_quality_metrics.txt: summary quality metrics of Anx, AnAx and AnGx values for x=0.5, x=0.75 and x=0.9 
 
 
 ### More informations
