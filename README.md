@@ -61,6 +61,7 @@ There are two ways to run MaGuS. The most common way to run it is:
 ```
 
 User can also choose to run MaGuS pipeline step by step as:
+
 step1:
 ```
 magus wg2map -w wgpFile -t tags.bam
@@ -85,6 +86,31 @@ magus links2scaf -f assembly.fa -c links.de
 N.B: Several mapped paired-end libraries (BAM file) of different fragment size can be used simultanously with the -b option for each one
 example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2 ...
 
+### Options
+
+#Options for all (wgp2map-map2links-pairs2links-links2scaf-map2qc)
+```
+         -w <string>    wgpFile: WGP data
+         -t <string>    tags.bam: tags alignment on the assembly (BAM)
+         -f <string>    assembly.fa: assembly file (FASTA)
+         -e <int>       estimate_size: genome estimate size (bp)
+         -b <string>    file.bam,m,sd,s: paired reads alignment (BAM), library median size (bp), library standart deviation (bp), reads size (bp)
+
+OPTIONAL PARAMETERS:
+         -s <string>    sorted file according to mapping position of tags       (default : prefix_tags_coordinates.txt)
+         -a <string>    anchored tags on assembly       (default : prefix_anchored_assembly.txt)
+         -l <string>    output file containing links between contigs/scaffolds  (default : prefix_map_links.txt)
+         -c <string>    file containing links in DE format      (default : prefix_validated_map_links.de)
+         -m <string>    Bin path        (default: $PATH)
+         -v <string>    path to samtools        (default: $PATH)
+         -r <string>    path to R       (default: $PATH)
+         -q <string>    path to fastalength     (default: $PATH)
+         -z <string>    path to sga     (default: $PATH)
+         -g <string>    path to getseq  (default: $PATH)
+         -p <string>    prefix for output files (default: magus)
+         -h             this help
+
+```
 
 
 ### Inputs
@@ -148,14 +174,7 @@ example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2
 
 -prefix_quality_metrics.txt: summary quality metrics of Anx, AnAx and AnGx values for x=0.5, x=0.75 and x=0.9
 
-### Options
 
-Each step can be executed separately as follow:
-```
-MaGuS wgp2map -option1 ... -option2 ...
-MaGuS map2links -option1 ... -option2 ...
-...
-```
 ### More informations
 
 ```
