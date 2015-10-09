@@ -148,8 +148,7 @@ OPTIONS
         -p <string>     prefix for output files (default: magus)
         -h              this help
 
-- ##### Options for links2scaf
-
+- ##### Options for links2scaf	
         -f <string>     assembly.fa: assembly file (FASTA)
         -c <string>     links.de: file containing links in DE format
 
@@ -162,37 +161,31 @@ OPTIONS
 OUTPUT
 --------------
 
-- wgp2map output
-
--${prefix}_tags_coordinate.txt: File containing anchored tags on assembly sorted by mapping position
-
+- wgp2map output	
+-${prefix}_tags_coordinate.txt: File containing anchored tags on assembly sorted by mapping position	
   col 1: scaffold ID  
   col 2: position    
   col 3: tagId  
   col 4: rank	
   col 5: group ID 
   
--${prefix}_anchored_assembly.txt: MaGuS format File of anchored scaffolds on the genome map
-
+-${prefix}_anchored_assembly.txt: MaGuS format File of anchored scaffolds on the genome map	
   col 1: group ID                
   col 2: scaffold ID	
   col 3: minimum tag rank	
   col 4: maximum tag rank	
   col 5: number of tags	
 
-- map2links output
-
+- map2links output	
 -${prefix}_map_links.txt: list of map-links between scaffolds (scaf1_scaf2)
 
-- pairs2links output
-
+- pairs2links output	
 -${prefix}_validated_map_links.de: map-links validated by paired reads in .de format (SGA specific format)  
 -${prefix}_unvalidated_map_links.txt: list of map-links not validated by the paired reads	
 -${prefix}_besst_validated_map_links.log: links statistics  
 
 
-- links2scaf output
-
+- links2scaf output	
 -${prefix}_final_scaffolds.fa: the final assembly (FASTA)	
 -${prefix}_scaffolds.fa: SGA scaffolding output (FASTA) 
 -${prefix}_unused_scaffolds.fa: scaffold not used for scaffolding step (FASTA)  
@@ -201,8 +194,7 @@ OUTPUT
 -${prefix}_sga_scaffold2fasta.log: scaffolding statistics (SGA specific format) 
 -${prefix}_sga_scaffold.log: scaffolding statistics/informations (SGA specific format)  
 
-- map2qc output
-
+- map2qc output	
 -prefix_An.csv: Anx values for x = 1 to 100%  
 -prefix_AnA.csv: AnAx values for x = 1 to 100%  
 -prefix_AnG.csv: AnGx vlaues for x = 1 to 100%  
@@ -213,7 +205,7 @@ OUTPUT
 ### More informations
 --------------
 
-Several mapped paired-end libraries (BAM file) of different fragment size can be used simultanously with the -b option for each one of them.
+Several mapped paired-end libraries (BAM file) of different fragment size can be used simultanously with the -b option for each one of them	
 example:  magus all -w tagsWgp.out -t mapping.bam -f Arabidopsis.fa -b mapping_library1.bam,3500,600,101 -b mapping_library2.bam,6000,1000,151 -b mapping_library3.bam,9000,1400,251 -e 120000000
 
 Download the documentation http://www.genoscope.cns.fr/externe/magus/magus-1.0.pdf.
