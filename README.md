@@ -161,7 +161,7 @@ OPTIONS
 OUTPUT
 --------------
 
-- wgp2map output	
+- wgp2map output
 
 -${prefix}_tags_coordinate.txt: File containing anchored tags on assembly sorted by mapping position
 
@@ -173,7 +173,7 @@ OUTPUT
   
 -${prefix}_anchored_assembly.txt: MaGuS format File of anchored scaffolds on the genome map
 
-  col 1: group ID                
+    col 1: group ID                
   col 2: scaffold ID	
   col 3: minimum tag rank	
   col 4: maximum tag rank	
