@@ -48,25 +48,26 @@ use Magus::Magus;
 
 ### VARIABLES ###
 
-my $usage = "\nMAGUS is a \"MAp GUided Scaffolding\" modular tool.\n";
-$usage .= "\nIt was implemented in a modular software based on fives steps.\n\n";
-$usage .= "\t\tSYNOPSIS : magus [wgp2map|map2links|pairs2links|links2scaf|map2qc|all] -help -prefix -binPath path\n";
-$usage .= "\nChoose your module : (more help for each step whith -h, i.e. : magus wgp2map -h)\n\n";
-$usage .= "\t wgp2map :\t takes as input file provided by keygene and bam file of tags alignment on sequences assembly, \n\t\t\t then perfomes sorted anchored tags in a MAGUS-format flat file.\n\n"; 
-$usage .= "\t map2links :\t takes as input MAGUS-format map file and creates the putative links between scaffolds.\n\n"; 
-$usage .= "\t pairs2links :\t takes as input the putative links file and bam file the alignment of the paired-end reads,\n\t\t\t then validates the putative links,\n\t\t\t directs the scaffolds, estimates the gap size and creates a link.de file.\n\n"; 
-$usage .= "\t links2scaf :\t take as input the link.de file and run the SGA scaffolding programs.\n\t\tIt outputs the final assembly.\n\n"; 
-$usage .= "\t map2qc :\t takes as input MAGUS files and evaluates the assembly quality.\n\n"; 
-$usage .= "\t all :\t takes as input all entries cited above and launches all steps.\n\n"; 
+#my $usage = "\nMAGUS is a \"MAp GUided Scaffolding\" modular tool.\n";
+#my $usage .= "\nIt was implemented in a modular software based on fives steps.\n\n";
+#my $usage .= "\t\tUsage: magus [wgp2map|map2links|pairs2links|links2scaf|map2qc|all] -help -prefix -binPath path\n";
+my $usage .= "Version 1.0.1\n\nUsage: magus <command> [options] [-h]\n";
+#$usage .= "Choose your module : (more help for each step whith -h, i.e. : magus wgp2map -h)\n";
+$usage .= "\t wgp2map \t sort anchored tags in a MAGUS format file\n"; 
+$usage .= "\t map2links \t create the map-links between scaffolds\n"; 
+$usage .= "\t pairs2links \t validate the map-links and create the .de file\n"; 
+$usage .= "\t links2scaf \t perform scaffolding\n"; 
+$usage .= "\t map2qc \t evaluate assembly quality\n"; 
+$usage .= "\t all \t\t do wgp2map-map2links-pairs2links-links2scaf-map2qc\n"; 
 
-$usage .= "\nChoose your general options : \n\n";
-$usage .= "\t -help :\t specific help for each step\n"; 
-$usage .= "\t -prefix :\t need for output files (default : magus)\n";
-$usage .= "\t -sam :\t path where is samtools binary\n\n\n";
-$usage .= "\t -sga :\t path where is SGA binary\n\n\n";
-$usage .= "\t -R :\t path where is R binary\n\n\n";
-$usage .= "\t -flen :\t path where is fastalength\n\n\n";
-$usage .= "\t -getseq :\t path where is getseq\n\n\n";
+#$usage .= "\nChoose your general options : \n";
+#$usage .= "\t -help :\t specific help for each step\n"; 
+#$usage .= "\t -prefix :\t need for output files (default : magus)\n";
+#$usage .= "\t -sam :\t path where is samtools binary\n";
+#$usage .= "\t -sga :\t path where is SGA binary\n";
+#$usage .= "\t -r :\t path where is R binary\n";
+#$usage .= "\t -flen :\t path where is fastalength\n";
+#$usage .= "\t -getseq :\t path where is getseq\n";
 
 
 my $help = "";
@@ -86,40 +87,66 @@ my ($samtoolsPath,$sgaPath,$RPath,$fastalengthPath,$getseqPath) = ("","","","","
 $sgaPath = "/env/cns/opt/sga-master/SGA/"; ## FOR TESTS
 my $genomeSize = 0;
 
+
+#unless(GetOptions(
+#        "wgp=s" 	=> \$mapFile,
+#        "tags=s" 	=> \$tagsFile,
+#        "scaff=s" 	=> \$scaffoldsFile,
+#        "reads=s" 	=> \@readsData, # add library size, std dev and reads size
+#        "anchors=s" => \$checkedTagsFile,
+#        "links=s"   => \$linksFile,
+#        "connect=s" => \$connectionsFile,
+#        "order=s"   => \$orderedTagsFile,
+#        "stats=s"   => \$statsFile,
+#        "bin=s" => \$binPath,
+#        "sam" => \$samtoolsPath,
+#        "sga"   => \$samtoolsPath,
+#        "R"     => \$RPath,
+#        "flen" => \$fastalengthPath,
+#        "getseq" => \$getseqPath,
+#        "prefix=s" 	=> \$prefix,
+#        "genome=i"  => \$genomeSize,
+#        "help"   	=> \$help, 
+#)) {die $usage;}
+
+
 unless(GetOptions(
-        "wgp=s" 	=> \$mapFile,
-        "tags=s" 	=> \$tagsFile,
-        "scaff=s" 	=> \$scaffoldsFile,
-        "reads=s" 	=> \@readsData, # add bank size, std dev and reads size
-        "anchors=s" => \$checkedTagsFile,
-        "links=s"   => \$linksFile,
-        "connect=s" => \$connectionsFile,
-        "order=s"   => \$orderedTagsFile,
-        "stats=s"   => \$statsFile,
-        "bin=s" => \$binPath,
-        "sam" => \$samtoolsPath,
-        "sga"   => \$samtoolsPath,
-        "R"     => \$RPath,
-        "flen" => \$fastalengthPath,
-        "getseq" => \$getseqPath,
-        "prefix=s" 	=> \$prefix,
-        "genome=i"  => \$genomeSize,
-        "help"   	=> \$help, 
+        "w=s" 	=> \$mapFile,
+        "t=s" 	=> \$tagsFile,
+        "f=s" 	=> \$scaffoldsFile,
+        "b=s" 	=> \@readsData, # add library size, std dev and reads size
+        "a=s" => \$checkedTagsFile,
+        "l=s"   => \$linksFile,
+        "c=s" => \$connectionsFile,
+        "s=s"   => \$orderedTagsFile,
+        "x=s"   => \$statsFile,
+        "m=s" => \$binPath,
+        "v=s" => \$samtoolsPath,
+        "z=s"   => \$sgaPath,
+        "r=s"     => \$RPath,
+        "q=s" => \$fastalengthPath,
+        "g=s" => \$getseqPath,
+        "p=s" 	=> \$prefix,
+        "e=i"  => \$genomeSize,
+        "h"   	=> \$help, 
 )) {die $usage;}
 
 if (scalar(@ARGV) == 0) {
-	die "\nYou must choose a module !\n\n$usage\n";
+	die "\n$usage\n";
 }
 
 if (scalar(@ARGV) > 1) {
-	die "Too much arguments $usage";
+	die "\n$usage";
 }
 
 if ($checkedTagsFile eq "") {
-	$checkedTagsFile = "${prefix}_anchorage.txt";
+	$checkedTagsFile = "${prefix}_anchored_assembly.txt" if ($ARGV[0] eq "all");
 }
+#if ($orderedTagsFile eq "") {
+#	$orderedTagsFile = "${prefix}_ordered_tags.txt";
+#}
 if ($orderedTagsFile eq "") {
-	$orderedTagsFile = "${prefix}_ordered_tags.txt";
+	$orderedTagsFile = "${prefix}_tags_coordinate.txt";
 }
 if ($linksFile eq "") {
 	$linksFile = "${prefix}_map_links.txt";
@@ -136,8 +163,8 @@ my $sgaScaffLog = "${prefix}_sga_scaffold.log";
 my $newScaffFile = "${prefix}_scaffolds.fa";
 my $newScaffLog = "${prefix}_sga_scaffold2fasta.log";
 my $sgaLostFile = "${prefix}_sga_scaf_lost.txt";
-my $scaffLostFile = "${prefix}_lost_scaffolds.fa";
-my $allScaffFile = "${prefix}_all_scaffolds.fa";
+my $scaffLostFile = "${prefix}_unused_scaffolds.fa";
+my $allScaffFile = "${prefix}_final_scaffolds.fa";
 if ($statsFile eq "") {
 	$statsFile = "${prefix}_quality_metrics.txt";
 }
