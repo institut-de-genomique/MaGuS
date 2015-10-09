@@ -175,10 +175,10 @@ OUTPUT
 -${prefix}_anchored_assembly.txt: MaGuS format File of anchored scaffolds on the genome map
 
   col 1: group ID                
-  col 2: scaffold ID  
-  col 3: minimum tag rank 
-  col 4: maximum tag rank 
-  col 5: number of tags 
+  col 2: scaffold ID	
+  col 3: minimum tag rank	
+  col 4: maximum tag rank	
+  col 5: number of tags	
 
 - map2links output
 
