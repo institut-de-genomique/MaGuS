@@ -83,9 +83,6 @@ step5:
 magus links2scaf -f assembly.fa -c links.de
 ```
 
-N.B: Several mapped paired-end libraries (BAM file) of different fragment size can be used simultanously with the -b option for each one
-example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2 ...
-
 Options
 --------------
 
@@ -162,31 +159,32 @@ Options
         -p <string>     prefix for output files (default: magus)
         -h              this help
 
-### Output
+Output
+--------------
 
-- map2links output
--prefix_map_links.txt: the list of the scaffold links inferred from the genome map, (scaf1_scaf2)
-
--prefix_ordered_tags.txt: the tags sorted by position on the scaffolds
-
+- wgp2map output
+-${prefix}_tags_coordinate.txt: File containing anchored tags on assembly sorted by mapping position
   col 1: scaffold Id     
   col 2: position
   col 3: tagId
   col 4: rank
   col 5: group ID
-  
--prefix_anchorage.txt: the position of the scaffolds on the genome map, contains 5 columns
+
+-${prefix}_anchored_assembly.txt: MaGuS format File of anchored scaffolds on the genome map
   col 1: group ID                     
   col 2: scaffold Id
   col 3: minimum tag rank
   col 4: maximum tag rank
   col 5: number of tags
-  
+
+- map2links output
+-${prefix}_map_links.txt: list of map-links between scaffolds (scaf1_scaf2)
+
 - pairs2links output
 
--prefix_validated_map_links.de: map-links validated by paired reads in .de format (SGA specific format)
+-${prefix}_validated_map_links.de: map-links validated by paired reads in .de format (SGA specific format)
 
--prefix_unvalidated_map_links.txt: list of map-links not validated by the paired reads
+-${prefix}_unvalidated_map_links.txt: list of map-links not validated by the paired reads
 
 
 - links2scaf output
@@ -216,7 +214,8 @@ Options
 
 
 ### More informations
-
+N.B: Several mapped paired-end libraries (BAM file) of different fragment size can be used simultanously with the -b option for each one
+example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2 ...
 ```
 magus -h (more help for each module whith -h, i.e. : magus wgp2map -h)
 ```
