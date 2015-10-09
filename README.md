@@ -97,7 +97,7 @@ Options
          -e <int>       estimate_size: genome estimate size (bp)
          -b <string>    file.bam,m,sd,s: paired reads alignment (BAM), library median size (bp), library standart deviation (bp), reads size (bp)
 
-OPTIONAL PARAMETERS:
+         OPTIONAL PARAMETERS:
          -s <string>    sorted file according to mapping position of tags       (default : prefix_tags_coordinates.txt)
          -a <string>    anchored tags on assembly       (default : prefix_anchored_assembly.txt)
          -l <string>    output file containing links between contigs/scaffolds  (default : prefix_map_links.txt)
