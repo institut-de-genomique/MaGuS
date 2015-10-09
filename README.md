@@ -88,8 +88,8 @@ example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2
 
 ### Options
 
-- ##### Options for all (wgp2map-map2links-pairs2links-links2scaf-map2qc)
-- 
+- Options for all (wgp2map-map2links-pairs2links-links2scaf-map2qc)
+
 ```
          -w <string>    wgpFile: WGP data
          -t <string>    tags.bam: tags alignment on the assembly (BAM)
