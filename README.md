@@ -165,12 +165,14 @@ OUTPUT
 - wgp2map output
 
 -${prefix}_tags_coordinate.txt: File containing anchored tags on assembly sorted by mapping position
+
   col 1: scaffold Id     
   col 2: position
   col 3: tagId
   col 4: rank
   col 5: group ID
 -${prefix}_anchored_assembly.txt: MaGuS format File of anchored scaffolds on the genome map
+
   col 1: group ID                     
   col 2: scaffold Id
   col 3: minimum tag rank
@@ -184,6 +186,7 @@ OUTPUT
 - pairs2links output
 
 -${prefix}_validated_map_links.de: map-links validated by paired reads in .de format (SGA specific format)
+
 -${prefix}_unvalidated_map_links.txt: list of map-links not validated by the paired reads
 -${prefix}_besst_validated_map_links.log: links statistics
 
