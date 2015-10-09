@@ -162,6 +162,7 @@ OUTPUT
 --------------
 
 - wgp2map output	
+
 -${prefix}_tags_coordinate.txt: File containing anchored tags on assembly sorted by mapping position	
   col 1: scaffold ID  
   col 2: position    
