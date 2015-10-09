@@ -102,7 +102,7 @@ sub getBadTags ($$) {
 	open (ORDER, ">$orderedTagsFile")
 		or die "Cannot open $orderedTagsFile : $!\n";
 		
-	print ORDER "#scaffoldId\tposition\ttagId\trank\tcontigBac\n";
+	print ORDER "#scaffoldID\tposition\ttagId\trank\tgroupID\n";
 	
 	foreach my $scaff (keys %$order) {
 		my $hash = $$order{$scaff};
@@ -251,7 +251,7 @@ sub printAnchors ($) {
 	open (ANCHORS, ">$anchorsFile")
 		or die "Cannot open $anchorsFile : $!\n";
 		
-	print ANCHORS "#contigBac\tscaffoldId\tminimum rank\tmaximum rank\t number of tags\n";	
+	print ANCHORS "#groupID\tscaffoldID\tminimum tag rank\tmaximum tag rank\tnumber of tags\n";	
 			
 	my $anchor = $self->getAnchors();
 		
