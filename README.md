@@ -17,7 +17,7 @@ MaGuS website http://www.genoscope.cns.fr/magus
 
 Contact : magus [a] genoscope [.] cns [.] fr
 
-PRE-REQUISITES
+PRE-REQUIREMENTS
 --------------
 
   - A Linux based operating system.
@@ -83,7 +83,7 @@ step5:
 magus links2scaf -f assembly.fa -c links.de
 ```
 
-Options
+OPTIONS
 --------------
 
 - ##### Options for all (wgp2map-map2links-pairs2links-links2scaf-map2qc)
@@ -159,7 +159,7 @@ Options
         -p <string>     prefix for output files (default: magus)
         -h              this help
 
-Output
+OUTPUT
 --------------
 
 - wgp2map output
@@ -208,6 +208,7 @@ Output
 
 
 ### More informations
+--------------
 
 Several mapped paired-end libraries (BAM file) of different fragment size can be used simultanously with the -b option for each one of them.
 example:  magus all -w tagsWgp.out -t mapping.bam -f Arabidopsis.fa -b mapping_library1.bam,3500,600,101 -b mapping_library2.bam,6000,1000,151 -b mapping_library3.bam,9000,1400,251 -e 120000000
