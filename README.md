@@ -55,6 +55,38 @@ RUNNING EXAMPLE
 
 The directory "MaGuS_example_arabido" contains the example files to test MaGuS.
 
+There are two ways to run MaGuS. The most common way to run it is:
+```
+ magus all -w wgpFile -t tags.bam -f assembly.fa -e estimate_size -b file.bam,m,sd,s
+```
+
+User can also choose to run MaGuS pipeline step by step as:
+step1:
+```
+magus wg2map -w wgpFile -t tags.bam
+```
+step2:
+```
+magus map2qc -f assembly.fa -e estimate_size -s tags_coordinates.txt
+```
+step3:
+```
+magus map2links -a anchoring_file.txt
+```
+step4:
+```
+magus pairs2links -f assembly.fa -l links_file.txt -b file.bam,m,sd,s
+```
+step5:
+```
+magus links2scaf -f assembly.fa -c links.de
+```
+
+N.B: Several mapped paired-end libraries (BAM file) of different fragment size can be used simultanously with the -b option for each one
+example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2 ...
+
+
+
 ### Inputs
 
          -w <string>    wgpFile: WGP data
@@ -62,11 +94,6 @@ The directory "MaGuS_example_arabido" contains the example files to test MaGuS.
          -f <string>    assembly.fa: assembly file (FASTA)
          -e <int>       estimate_size: genome estimate size (bp)
          -b <string>    file.bam,m,sd,s: paired reads alignment (BAM), library median size (bp), library standart deviation (bp), reads size (bp)
-
-
-
-N.B: Several paired-end libraries of different fragment size can be used simultanously, each library has to be added with the -reads options 
-example: -reads pairs1.bam,mean1,sd1,length1 -reads pairs2.bam,mean2,sd2,length2 ...
 
 
 ### Output
