@@ -163,6 +163,7 @@ Output
 --------------
 
 - wgp2map output
+
 -${prefix}_tags_coordinate.txt: File containing anchored tags on assembly sorted by mapping position
   col 1: scaffold Id     
   col 2: position
@@ -178,6 +179,7 @@ Output
   col 5: number of tags
 
 - map2links output
+
 -${prefix}_map_links.txt: list of map-links between scaffolds (scaf1_scaf2)
 
 - pairs2links output
