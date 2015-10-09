@@ -188,27 +188,32 @@ Output
 
 -${prefix}_unvalidated_map_links.txt: list of map-links not validated by the paired reads
 
+-${prefix}_besst_validated_map_links.log: links statistics
+
 
 - links2scaf output
 
--prefix_all_scaffolds.fa: the final assembly (FASTA)
+-${prefix}_final_scaffolds.fa: the final assembly (FASTA)
 
--prefix_scaffolds.fa: SGA scaffolding output (FASTA)
+-${prefix}_scaffolds.fa: SGA scaffolding output (FASTA)
 
--prefix_sga.scaf: scaffolding information (SGA specific format) 
+-${prefix}_unused_scaffolds.fa: scaffold not used for scaffolding step (FASTA)
 
--prefix_sga_scaf_lost.txt: list of scaffolds not considered by SGA
+-${prefix}_sga_scaf_unused.txt: list of scaffolds not considered by SGA
 
--prefix_lost_scaffolds.fa: scaffold not taken by SGA during the scaffolding step (FASTA)
+-${prefix}_sga.scaf: scaffolding information (SGA specific format) 
 
+-${prefix}_sga_scaffold2fasta.log: scaffolding statistics (SGA specific format)
+
+-${prefix}_sga_scaffold.log: scaffolding statistics/informations (SGA specific format) 
 
 - map2qc output
 
--prefix_An.csv: the Anx vlaues for x = 1 to 100%
+-prefix_An.csv: Anx values for x = 1 to 100%
 
--prefix_AnA.csv: the AnAx values for x = 1 to 100%
+-prefix_AnA.csv: AnAx values for x = 1 to 100%
 
--prefix_AnG.csv: the AnGx vlaues for x = 1 to 100%
+-prefix_AnG.csv: AnGx vlaues for x = 1 to 100%
 
 -prefix_quality_metrics.png: Anx, AnAx and AnGx plots
 
