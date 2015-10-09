@@ -62,23 +62,23 @@ There are two ways to run MaGuS. The most common way to run it is:
 
 User can also choose to run MaGuS pipeline step by step as:
 
-step1:
+- step1:
 ```
 magus wg2map -w wgpFile -t tags.bam
 ```
-step2:
+- step2:
 ```
 magus map2qc -f assembly.fa -e estimate_size -s tags_coordinates.txt
 ```
-step3:
+- step3:
 ```
 magus map2links -a anchoring_file.txt
 ```
-step4:
+- step4:
 ```
 magus pairs2links -f assembly.fa -l links_file.txt -b file.bam,m,sd,s
 ```
-step5:
+- step5:
 ```
 magus links2scaf -f assembly.fa -c links.de
 ```
