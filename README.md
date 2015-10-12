@@ -210,6 +210,7 @@ OUTPUT
 
 ### More informations
 --------------
+If you have questions about MaGuS, you may send the questions to amadoui [at] genoscope [.] cns [.] fr, cdossat [at] genoscope [.] cns [.] fr, ldagata [at] genoscope [.] cns [.] fr and jmaury [at] genoscope [.] cns [.] fr . You may also create an issue to ask questions on github website: https://github.com/institut-de-genomique/MaGuS/issues. 
 
 
 ACKNOWLEDGMENTS
