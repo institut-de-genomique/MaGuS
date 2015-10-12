@@ -147,6 +147,11 @@ OPTIONS
         -p <string>     prefix for output files (default: magus)
         -h              this help
 
+
+Several mapped paired-end libraries (BAM file) can be used simultanously with the -b option for each one of them. Example:
+
+magus all -w tagsWgp.out -t mapping.bam -f Arabidopsis.fa -b mapping_library1.bam,3500,600,101 -b mapping_library2.bam,6000,1000,151 -b mapping_library3.bam,9000,1400,251 -e 120000000
+
 - ##### Options for links2scaf	
         -f <string>     assembly.fa: assembly file (FASTA)
         -c <string>     links.de: file containing links in DE format
@@ -206,11 +211,6 @@ OUTPUT
 ### More informations
 --------------
 
-Several mapped paired-end libraries (BAM file) can be used simultanously with the -b option for each one of them. Example:
-
-magus all -w tagsWgp.out -t mapping.bam -f Arabidopsis.fa -b mapping_library1.bam,3500,600,101 -b mapping_library2.bam,6000,1000,151 -b mapping_library3.bam,9000,1400,251 -e 120000000
-
-Download the documentation http://www.genoscope.cns.fr/externe/magus/magus-1.0.pdf.
 
 ACKNOWLEDGMENTS
 ---------------
