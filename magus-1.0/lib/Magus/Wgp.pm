@@ -68,13 +68,7 @@ sub fill ($$) {
 		
 	while (<MAP>) {
 		chomp;
-		if ($_ =~ /### Ordered tags Per contig/) {
-			next;
-		}
-		elsif ($_ =~ /--- Contig nr. 0/) {
-			$exclude = 1;
-		}
-		elsif ($_ =~ /--- Contig nr. (\d+)/) {
+		if ($_ =~ /(\d+)/) {
 			$moleculeId = $1;
 			$tagIn = 1;
 		}
