@@ -520,7 +520,7 @@ sub map2qc ($$$$$$$) {
 	}
 	
 	# assembly size
-	my $assemblySize = `fastalength $scaffoldsFile |  awk '{ sum+=\$1; } END { print sum; }'`;
+	my $assemblySize = `"$fastalengthPath"fastalength $scaffoldsFile |  awk '{ sum+=\$1; } END { print sum; }'`;
 	chomp $assemblySize;
 	
 	# get all scaff and length
