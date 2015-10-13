@@ -40,7 +40,8 @@ INSTALLATION
 
   1. Download the .zip file MaGuS-master: 
   `wget https://github.com/institut-de-genomique/MaGuS/archive/master.zip`
-  2. Unzip it: 
+  2. Unzip it:  
+  `unzip Arabido_data.tar.gz`
   3. Modify if needed the Perl interpreter that has been set to : /usr/bin/perl
   4. Download the example dataset available on the website http://www.genoscope.cns.fr/externe/magus or
   `wget http://www.genoscope.cns.fr/externe/magus/datasets/MaGuS/Arabido/Arabido_data.tar.gz`
