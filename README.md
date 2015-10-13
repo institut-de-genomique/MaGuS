@@ -38,9 +38,9 @@ fastalength:  program from exonerate availaible under the LGPL license (http://w
 INSTALLATION
 ------------
 
-  1. Clone this GitHub repository
+  1. Clone the GitHub repository
   2. Modify if needed the Perl interpreter that has been set to : /usr/bin/perl
-  3. Add MaGuS libraries in $PATH (i.e. `PERL5LIB=./lib/:$PERL5LIB`)
+  3. Go to the Github_repository and add MaGuS libraries in $PATH (i.e. `PERL5LIB=$(pwd)/MaGuS/magus-1.0/lib/:$PERL5LIB`)
   4. Download the example dataset available on the website http://www.genoscope.cns.fr/externe/magus
   5. Untar/unzip the archive :
   `tar -zxvf MaGuS_example_arabido.tar.gz`
