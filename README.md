@@ -38,7 +38,7 @@ fastalength:  program from exonerate availaible under the LGPL license (http://w
 INSTALLATION
 ------------
 
-  1. Download the .zip file MaGuS-master 
+  1. Download the .zip file MaGuS-master
   `wget https://github.com/institut-de-genomique/MaGuS/archive/master.zip`
   2. unzip it
   3. Modify if needed the Perl interpreter that has been set to : /usr/bin/perl
