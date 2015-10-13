@@ -38,13 +38,13 @@ fastalength:  program from exonerate availaible under the LGPL license (http://w
 INSTALLATION
 ------------
 
-  1. Download the .zip file MaGuS-master
+  1. Download the .zip file MaGuS-master: 
   `wget https://github.com/institut-de-genomique/MaGuS/archive/master.zip`
-  2. unzip it
+  2. Unzip it: 
   3. Modify if needed the Perl interpreter that has been set to : /usr/bin/perl
   4. Download the example dataset available on the website http://www.genoscope.cns.fr/externe/magus or
   `wget http://www.genoscope.cns.fr/externe/magus/datasets/MaGuS/Arabido/Arabido_data.tar.gz`
-  5. Untar/unzip the archive :
+  5. Untar/unzip it:
   `tar -zxvf MaGuS_example_arabido.tar.gz`
   6. Add MaGuS libraries in $PATH (i.e. `PERL5LIB=$(pwd)/MaGuS-master/magus-1.0/lib/:$PERL5LIB`)
   7. Run MaGuS on the example data set :
