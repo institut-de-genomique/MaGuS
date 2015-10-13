@@ -82,9 +82,10 @@ my $connectionsFile = "";
 my $connectionsLog = "";
 my $orderedTagsFile = "";
 my $statsFile = "";
-my $binPath = "/env/cns/ARCH/x64/bin/"; ## FOR TESTS
+#my $binPath = "/env/cns/ARCH/x64/bin/"; ## FOR TESTS
+my $binPath = "";
 my ($samtoolsPath,$sgaPath,$RPath,$fastalengthPath,$getseqPath) = ("","","","","");
-$sgaPath = "/env/cns/opt/sga-master/SGA/"; ## FOR TESTS
+#$sgaPath = "/env/cns/opt/sga-master/SGA/"; ## FOR TESTS
 my $genomeSize = 0;
 
 
