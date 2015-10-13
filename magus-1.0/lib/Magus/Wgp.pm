@@ -68,7 +68,7 @@ sub fill ($$) {
 		
 	while (<MAP>) {
 		chomp;
-		if ($_ =~ /(\d+)/) {
+		if ($_ =~ /\D+ (\d+)/) {
 			$moleculeId = $1;
 			$tagIn = 1;
 		}
