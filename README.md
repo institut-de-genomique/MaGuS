@@ -41,7 +41,7 @@ INSTALLATION
   1. Clone this GitHub repository
   2. Modify if needed the Perl interpreter that has been set to : /usr/bin/perl
   3. Add MaGuS libraries in $PATH (i.e. `PERL5LIB=./lib/:$PERL5LIB`)
-  4. Download the example dataset available
+  4. Download the example dataset available on the website http://www.genoscope.cns.fr/externe/magus
   5. Untar/unzip the archive :
   `tar -zxvf MaGuS_example_arabido.tar.gz`
   6. Run MaGuS on the example data set :
