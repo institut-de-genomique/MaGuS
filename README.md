@@ -17,6 +17,7 @@ MaGuS website http://www.genoscope.cns.fr/externe/magus
 
 Contact : magus [a] genoscope [.] cns [.] fr
 
+
 PRE-REQUIREMENTS
 --------------
 
@@ -30,9 +31,11 @@ PRE-REQUIREMENTS
   - SGA 0.10.13 
   - R 3.0.2 (cran.r-project.org)
 
+
 DEPENDENCIES
 ------------
-fastalength:  program from exonerate availaible under the LGPL license (http://www.ebi.ac.uk/~guy/exonerate/). 
+fastalength:  program from exonerate availaible under the LGPL license (http://dev.man-online.org/man1/fastalength/).
+getseq: program from Genoscope provide into the MaGuS package.
 
 
 INSTALLATION
