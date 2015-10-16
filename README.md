@@ -10,7 +10,13 @@ MaGuS run the five following steps :
 - links2scaf: output the new final assembly in fasta format.
 ```
 The use of MaGuS is not restricted to WGP data, other map types can be used. However they have to be formatted in the MaGuS map format (see below).
-
+```
+GroupID 1
+Tag1 Tag2 Tag3 Tag4 Tag4 Tag5 Tag6 Tag7
+rank1 rank2 rank3 rank4 rank5 rank6 rank7 rank8
+GroupID 2
+...
+```
 MaGuS is distributed open-source under CeCILL FREE SOFTWARE LICENSE. Check out http://www.cecill.info/ for more information about the contents of this license.
 
 MaGuS website http://www.genoscope.cns.fr/externe/magus
