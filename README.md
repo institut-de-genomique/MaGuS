@@ -65,7 +65,7 @@ There are two ways to run MaGuS. The most common way is:
 ```
 
 
-User can also choose to run MaGuS pipeline step by step as:
+The second way is to run MaGuS pipeline step by step as:
 
 - step1:
 ```
