@@ -13,7 +13,7 @@ The use of MaGuS is not restricted to WGP data, other map types can be used. How
 ```
 GroupID 1
 Tag1 Tag2 Tag3 Tag4 Tag4 Tag5 Tag6 Tag7
-rank1 rank2 rank3 rank4 rank5 rank6 rank7 rank8
+rank1 rank2 rank3 rank4 rank5 rank6 rank7 
 GroupID 2
 ...
 ```
