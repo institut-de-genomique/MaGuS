@@ -82,6 +82,7 @@ sub checkWgp2map ($$$) {
 	$synopsis .= "OPTIONAL PARAMETERS:\n";
 	$synopsis .= "\t-p <string>\tprefix for output files";
 	$synopsis .= "\t(default : magus)\n";
+	$synopsis .= "\t-v <string>\tpath to samtools\t(default: \$PATH)\n";
 	$synopsis .= "\t-h\t\tthis help\n\n";
 	$synopsis .= "EXAMPLE:\n\tmagus wg2map -w wgpFile -t tags.bam -p Arabido\n\n";
 	
@@ -119,12 +120,11 @@ sub checkMap2links ($$) {
 	$synopsis .= "OPTIONAL PARAMETERS:\n";	
 	$synopsis .= "\t-l <string>\toutput file containing links between contigs/scaffolds"; 
 	$synopsis .= "\t(default: prefix_map_links.txt)\n";
-	$synopsis .= "\t-m <string>\tBin path\t(default: \$PATH)\n";
 	$synopsis .= "\t-p <string>\tprefix for output files";
 	$synopsis .= "\t(default: magus)\n";
 	$synopsis .= "\t-h\t\tthis help\n\n";
 	$synopsis .= "EXAMPLE:\n\tmagus map2links -a anchoring_file.txt -l links_file.txt -m /env/bin/";
-	$synopsis .= "\n\tmagus map2links -a anchoring_file.txt -m /env/bin/ -p Arabido\n\n";
+	$synopsis .= "\n\tmagus map2links -a anchoring_file.txt -p Arabido\n\n";
 	if ($help) {
 		die $synopsis;
 	}
@@ -146,14 +146,15 @@ sub map2links ($$) {
 	close $handleLinks;
 }
 
-sub checkPairs2links ($$$) {
-	my ($help,$scaffoldsFile,$readsData) = @_;
+sub checkPairs2links ($$$$) {
+	my ($help,$scaffoldsFile,$readsData,$linksFile) = @_;
 	my $synopsis = "\nVersion 1.0.1\n\nUsage: magus pairs2links -f assembly.fa -l links_file.txt -b file.bam,m,sd,s [options] [-h]\n";
 	$synopsis .= "\t-f <string>\tassembly.fa: assembly file (FASTA)\n";
 	$synopsis .= "\t-l <string>\tlinks_file.txt: file containing links between contigs/scaffolds\n";
 	$synopsis .= "\t-b <string>\tfile.bam,m,sd,s: paired reads alignment (BAM), library median size (bp), library standart deviation (bp), reads size (bp)\n\n";
 	$synopsis .= "OPTIONAL PARAMETERS:\n";	
 	$synopsis .= "\t-v <string>\tpath to samtools\t(default: \$PATH)\n";
+	$synopsis .= "\t-q <string>\tpath to fastalength\t(default: \$PATH)\n";
 	$synopsis .= "\t-p <string>\tprefix for output files";
 	$synopsis .= "\t(default: magus)\n";
 	$synopsis .= "\t-h\t\tthis help\n\n";
@@ -167,6 +168,9 @@ sub checkPairs2links ($$$) {
 		die $synopsis;
 	}
 	if ($scaffoldsFile eq "") {
+		die "$synopsis";
+	}
+	if (! -f $linksFile) {
 		die "$synopsis";
 	}
 	if (scalar(@$readsData) == 0 ) {
@@ -284,8 +288,8 @@ sub execCmd ($) {
 		or die "[ERROR] : Cannot execute $cmd : $!\n";
 } 
 
-sub checkLinks2scaf ($$) {
-	my ($help,$scaffoldsFile) = @_;
+sub checkLinks2scaf ($$$) {
+	my ($help,$scaffoldsFile,$connectionsFile) = @_;
 	my $synopsis = "\nVersion 1.0.1\n\nUsage: magus links2scaf -f assembly.fa -c links.de [options] [-h]\n";
 	$synopsis .= "\t-f <string>\tassembly.fa: assembly file (FASTA)\n";
 	$synopsis .= "\t-c <string>\tlinks.de: file containing links in DE format\n\n";
@@ -303,6 +307,9 @@ sub checkLinks2scaf ($$) {
 		die $synopsis;
 	}
 	if ($scaffoldsFile eq "") {
+		die "$synopsis";
+	}
+	if (! -f $connectionsFile) {
 		die "$synopsis";
 	}
 }
@@ -374,16 +381,18 @@ sub links2scaf ($$$$$$$$$$$) {
 	execCmd("cat $newScaffFile $scaffLostFile > $allScaffFile");
 }
 
-sub checkMap2qc ($$$) {
-	my ($help,$scaffoldsFile,$genomeSize) = @_;
+sub checkMap2qc ($$$$) {
+	my ($help,$scaffoldsFile,$genomeSize,$orderedTagsFile) = @_;
 	my $synopsis = "\nVersion 1.0.1\n\nUsage: magus map2qc -f assembly.fa -e estimate_size -s tags_coordinates.txt [options] [-h]\n";
 	$synopsis .= "\t-f <string>\tassembly.fa: assembly file (FASTA)\n";
 	$synopsis .= "\t-e <int>\testimate_size: genome estimate size (bp)\n";
 	$synopsis .= "\t-s <string>\ttags_coordinates.txt: sorted file according to mapping position of tags \n\n";
 	$synopsis .= "OPTIONAL PARAMETERS:\n";		
 	$synopsis .= "\t-p <string>\tprefix for output files (default: magus)\n";
+	$synopsis .= "\t-q <string>\tpath to fastalength\t(default: \$PATH)\n";
+	$synopsis .= "\t-r <string>\tpath to R\t(default: \$PATH)\n";
 	$synopsis .= "\t-h\t\tthis help\n\n";
-	$synopsis .= "EXAMPLE:\n\tmagus map2qc -f Arabidopsis.fa -e 120000000 -s tags_coordinates.txt -p Arabido\n\n";
+	$synopsis .= "EXAMPLE:\n\tmagus map2qc -f Arabidopsis.fa -e 120000000 -s tags_coordinates.txt -p Arabido -q /path/to/fastalength/\n\n";
 #	$synopsis .= "This module gives some quality metrics about new assembly.\n";
 #	$synopsis .= "It takes in entry magus file prefix_ordered_tags.txt and the old assembly fasta file.\n\n";
 	
@@ -391,6 +400,9 @@ sub checkMap2qc ($$$) {
 		die $synopsis;
 	}
 	if ($scaffoldsFile eq "") {
+		die "$synopsis";
+	}
+	if (! -f $orderedTagsFile) {
 		die "$synopsis";
 	}
 	if ($genomeSize == 0 ) {

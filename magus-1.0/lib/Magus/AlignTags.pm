@@ -247,7 +247,6 @@ sub getAnchors () {
 
 sub printAnchors ($) {
 	my ($self,$anchorsFile) = @_;
-	
 	open (ANCHORS, ">$anchorsFile")
 		or die "Cannot open $anchorsFile : $!\n";
 		

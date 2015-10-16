@@ -48,27 +48,13 @@ use Magus::Magus;
 
 ### VARIABLES ###
 
-#my $usage = "\nMAGUS is a \"MAp GUided Scaffolding\" modular tool.\n";
-#my $usage .= "\nIt was implemented in a modular software based on fives steps.\n\n";
-#my $usage .= "\t\tUsage: magus [wgp2map|map2links|pairs2links|links2scaf|map2qc|all] -help -prefix -binPath path\n";
 my $usage .= "Version 1.0.1\n\nUsage: magus <command> [options] [-h]\n";
-#$usage .= "Choose your module : (more help for each step whith -h, i.e. : magus wgp2map -h)\n";
 $usage .= "\t wgp2map \t sort anchored tags in a MAGUS format file\n";
 $usage .= "\t map2qc \t evaluate assembly quality\n"; 
 $usage .= "\t map2links \t create the map-links between scaffolds\n"; 
 $usage .= "\t pairs2links \t validate the map-links and create the .de file\n"; 
 $usage .= "\t links2scaf \t perform scaffolding\n"; 
 $usage .= "\t all \t\t do wgp2map-map2links-pairs2links-links2scaf-map2qc\n"; 
-
-#$usage .= "\nChoose your general options : \n";
-#$usage .= "\t -help :\t specific help for each step\n"; 
-#$usage .= "\t -prefix :\t need for output files (default : magus)\n";
-#$usage .= "\t -sam :\t path where is samtools binary\n";
-#$usage .= "\t -sga :\t path where is SGA binary\n";
-#$usage .= "\t -r :\t path where is R binary\n";
-#$usage .= "\t -flen :\t path where is fastalength\n";
-#$usage .= "\t -getseq :\t path where is getseq\n";
-
 
 my $help = "";
 my $prefix = "magus";
@@ -87,29 +73,6 @@ my $binPath = "";
 my ($samtoolsPath,$sgaPath,$RPath,$fastalengthPath,$getseqPath) = ("","","","","");
 #$sgaPath = "/env/cns/opt/sga-master/SGA/"; ## FOR TESTS
 my $genomeSize = 0;
-
-
-#unless(GetOptions(
-#        "wgp=s" 	=> \$mapFile,
-#        "tags=s" 	=> \$tagsFile,
-#        "scaff=s" 	=> \$scaffoldsFile,
-#        "reads=s" 	=> \@readsData, # add library size, std dev and reads size
-#        "anchors=s" => \$checkedTagsFile,
-#        "links=s"   => \$linksFile,
-#        "connect=s" => \$connectionsFile,
-#        "order=s"   => \$orderedTagsFile,
-#        "stats=s"   => \$statsFile,
-#        "bin=s" => \$binPath,
-#        "sam" => \$samtoolsPath,
-#        "sga"   => \$samtoolsPath,
-#        "R"     => \$RPath,
-#        "flen" => \$fastalengthPath,
-#        "getseq" => \$getseqPath,
-#        "prefix=s" 	=> \$prefix,
-#        "genome=i"  => \$genomeSize,
-#        "help"   	=> \$help, 
-#)) {die $usage;}
-
 
 unless(GetOptions(
         "w=s" 	=> \$mapFile,
@@ -140,8 +103,23 @@ if (scalar(@ARGV) > 1) {
 	die "\n$usage";
 }
 
+
+if ($ARGV[0] eq "map2qc" && ! $orderedTagsFile) {
+	Magus::Magus::checkMap2qc($help,$scaffoldsFile,$genomeSize,$orderedTagsFile);
+}
+if ($ARGV[0] eq "map2links" && ! $checkedTagsFile) {
+	Magus::Magus::checkMap2links($help,$checkedTagsFile);
+}
+if ($ARGV[0] eq "pairs2links" && ! $linksFile) {
+	Magus::Magus::checkPairs2links($help,$scaffoldsFile,\@readsData,$linksFile);
+}
+if ($ARGV[0] eq "links2scaf" && ! $connectionsFile) {
+	Magus::Magus::checkLinks2scaf($help,$scaffoldsFile,$connectionsFile);
+}
+
+
 if ($checkedTagsFile eq "") {
-	$checkedTagsFile = "${prefix}_anchored_assembly.txt" if ($ARGV[0] eq "all");
+	$checkedTagsFile = "${prefix}_anchored_assembly.txt";
 }
 if ($orderedTagsFile eq "") {
 	$orderedTagsFile = "${prefix}_tags_coordinate.txt";
@@ -153,6 +131,7 @@ my $badLinksFile = "${prefix}_unvalidated_map_links.txt";
 if ($connectionsFile eq "") {
 	$connectionsFile = "${prefix}_validated_map_links.de";
 }
+
 if ($connectionsLog eq "") {
 	$connectionsLog = "${prefix}_validated_map_links.log";
 }
@@ -169,12 +148,13 @@ if ($statsFile eq "") {
 
 ### MAIN ###
 
+
 switch ($ARGV[0]) {
     case "wgp2map"     {Magus::Magus::checkWgp2map($help,$mapFile,$tagsFile); Magus::Magus::wgp2map($mapFile,$samtoolsPath,$tagsFile,$checkedTagsFile,$orderedTagsFile)}
-    case "map2qc"      {Magus::Magus::checkMap2qc($help,$scaffoldsFile,$genomeSize); Magus::Magus::map2qc($orderedTagsFile,$scaffoldsFile,$statsFile,$genomeSize,$prefix,$RPath,$fastalengthPath)}
+    case "map2qc"      {Magus::Magus::checkMap2qc($help,$scaffoldsFile,$genomeSize,$orderedTagsFile); Magus::Magus::map2qc($orderedTagsFile,$scaffoldsFile,$statsFile,$genomeSize,$prefix,$RPath,$fastalengthPath)}
     case "map2links"   {Magus::Magus::checkMap2links($help,$checkedTagsFile); Magus::Magus::map2links($checkedTagsFile,$linksFile)}
-    case "pairs2links" {Magus::Magus::checkPairs2links($help,$scaffoldsFile,\@readsData); Magus::Magus::pairs2links($samtoolsPath,$fastalengthPath,\@readsData,$scaffoldsFile,$linksFile,$badLinksFile,$connectionsFile,$connectionsLog)}
-    case "links2scaf"  {Magus::Magus::checkLinks2scaf($help,$scaffoldsFile); Magus::Magus::links2scaf($connectionsFile,$sgaScaffFile,$scaffoldsFile,$sgaScaffLog,$newScaffFile,$newScaffLog,$sgaLostFile,$scaffLostFile,$allScaffFile,$sgaPath,$getseqPath)}    
+    case "pairs2links" {Magus::Magus::checkPairs2links($help,$scaffoldsFile,\@readsData,$linksFile); Magus::Magus::pairs2links($samtoolsPath,$fastalengthPath,\@readsData,$scaffoldsFile,$linksFile,$badLinksFile,$connectionsFile,$connectionsLog)}
+    case "links2scaf"  {Magus::Magus::checkLinks2scaf($help,$scaffoldsFile,$connectionsFile); Magus::Magus::links2scaf($connectionsFile,$sgaScaffFile,$scaffoldsFile,$sgaScaffLog,$newScaffFile,$newScaffLog,$sgaLostFile,$scaffLostFile,$allScaffFile,$sgaPath,$getseqPath)}    
     case "all"         {Magus::Magus::checkAll($help,$mapFile,$tagsFile,$checkedTagsFile,$scaffoldsFile,\@readsData,$genomeSize); 
     					Magus::Magus::wgp2map($mapFile,$samtoolsPath,$tagsFile,$checkedTagsFile,$orderedTagsFile); 
     					Magus::Magus::map2qc($orderedTagsFile,$scaffoldsFile,$statsFile,$genomeSize,$prefix,$RPath,$fastalengthPath);
