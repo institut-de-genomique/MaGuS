@@ -56,10 +56,10 @@ INSTALLATION
   `wget http://www.genoscope.cns.fr/externe/magus/datasets/MaGuS/Arabido/Arabido_data.tar.gz`
   5. Untar/unzip it:  
   `tar -zxvf Arabido_data.tar.gz`
-  6. Add MaGuS libraries in $PATH (i.e. `PERL5LIB=$(pwd)/MaGuS-master/magus-1.0/lib/:$PERL5LIB` and `PERL5LIB=$(pwd)/MaGuS-master/magus-1.0/bin/:$PERL5LIB`)
+  6. Add MaGuS libraries in $PATH (i.e. `PERL5LIB=$(pwd)/MaGuS-master/magus-1.0/lib/:$PERL5LIB`)
   7. Run MaGuS on the example data set :
 ```
-$ magus all -w Arabido_data/tagsWgp.out -t Arabido_data/mapped_tag.bam -b Arabido_data/mp_map1_2.bam,5414,1000,76 -b Arabido_data/mp_map2_2.bam,5414,1000,76 -f Arabido_data/Arabido.fa -p Arabido -e 119667750 -z /path/to/SGA/ -q /path/to/fastalength/ -r /path/to/R/ -v /path/to/samtools/ -g /path/to/getseq/
+$ /path/to/magus all -w Arabido_data/tagsWgp.out -t Arabido_data/mapped_tag.bam -b Arabido_data/mp_map1_2.bam,5414,1000,76 -b Arabido_data/mp_map2_2.bam,5414,1000,76 -f Arabido_data/Arabido.fa -p Arabido -e 119667750 -z /path/to/SGA/ -q /path/to/fastalength/ -r /path/to/R/ -v /path/to/samtools/ -g /path/to/getseq/
 ```
 
 RUNNING MaGuS
