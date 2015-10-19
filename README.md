@@ -126,6 +126,7 @@ OPTIONS
 
         OPTIONAL PARAMETERS:
         -p <string>     prefix for output files (default : magus)
+        -v <string>     path to samtools        (default: $PATH)
         -h              this help
 
 - ##### Options for map2qc
@@ -136,6 +137,8 @@ OPTIONS
 
         OPTIONAL PARAMETERS:
         -p <string>     prefix for output files (default: magus)
+        -q <string>     path to fastalength     (default: $PATH)
+        -r <string>     path to R       (default: $PATH)
         -h              this help
 
 - ##### Options for map2links
@@ -144,7 +147,6 @@ OPTIONS
 
         OPTIONAL PARAMETERS:
         -l <string>     output file containing links between contigs/scaffolds  (default: prefix_map_links.txt)
-        -m <string>     Bin path        (default: $PATH)
         -p <string>     prefix for output files (default: magus)
         -h              this help
 
@@ -156,6 +158,7 @@ OPTIONS
 
         OPTIONAL PARAMETERS:
         -v <string>     path to samtools        (default: $PATH)
+        -q <string>     path to fastalength     (default: $PATH)
         -p <string>     prefix for output files (default: magus)
         -h              this help
 
