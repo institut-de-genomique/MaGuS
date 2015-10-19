@@ -40,7 +40,7 @@ PRE-REQUIREMENTS
 
 DEPENDENCIES
 ------------
-fastalength:  program from exonerate availaible under the LGPL license (http://dev.man-online.org/man1/fastalength/).
+fastalength:  program from exonerate availaible under the LGPL license (http://dev.man-online.org/man1/fastalength/)  
 getseq: program from Genoscope provide into the MaGuS package.
 
 
