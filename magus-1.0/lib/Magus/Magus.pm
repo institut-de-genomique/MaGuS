@@ -123,7 +123,7 @@ sub checkMap2links ($$) {
 	$synopsis .= "\t-p <string>\tprefix for output files";
 	$synopsis .= "\t(default: magus)\n";
 	$synopsis .= "\t-h\t\tthis help\n\n";
-	$synopsis .= "EXAMPLE:\n\tmagus map2links -a anchoring_file.txt -l links_file.txt -m /env/bin/";
+	$synopsis .= "EXAMPLE:\n\tmagus map2links -a anchoring_file.txt -l links_file.txt";
 	$synopsis .= "\n\tmagus map2links -a anchoring_file.txt -p Arabido\n\n";
 	if ($help) {
 		die $synopsis;
@@ -609,7 +609,6 @@ sub checkAll ($$$$$$$) {
 	$synopsis .= "\t(default : prefix_map_links.txt)\n";
 	$synopsis .= "\t -c <string>\tfile containing links in DE format";
 	$synopsis .= "\t(default : prefix_validated_map_links.de)\n";
-	$synopsis .= "\t -m <string>\tBin path\t(default: \$PATH)\n";
 	$synopsis .= "\t -v <string>\tpath to samtools\t(default: \$PATH)\n";
 	$synopsis .= "\t -r <string>\tpath to R\t(default: \$PATH)\n";
 	$synopsis .= "\t -q <string>\tpath to fastalength\t(default: \$PATH)\n";
@@ -622,7 +621,7 @@ sub checkAll ($$$$$$$) {
 	$synopsis .= "\tmagus all -w tagsWgp.out -t mapping.bam -f Arabidopsis.fa -b mapping_library1.bam,3500,600,101 -e 120000000 -s tags_coordinates.txt -a anchoring_file.txt -l links_file.txt -c links.de";
 	$synopsis .=  " -v /env/bin/PathToSamtools -r /env/bin/PathToR -q /env/bin/PathToFstlg -z /env/bin/PathToSga -g /env/bin/PathToGetseq\n";
 	$synopsis .= "\tmagus all -w tagsWgp.out -t mapping.bam -f Arabidopsis.fa -b mapping_library1.bam,3500,600,101 -e 120000000";
-	$synopsis .=  " -m /env/bin/ -p Arabido\n\n";
+	$synopsis .=  " -p Arabido\n\n";
 	
 	if ($help) {
 		die $synopsis;
