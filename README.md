@@ -53,7 +53,7 @@ INSTALLATION
   `unzip master.zip`
   3. Modify if needed the Perl interpreter that has been set to : /usr/bin/perl
   4. Download the example dataset available on the website http://www.genoscope.cns.fr/externe/magus or:  
-  `wget http://www.genoscope.cns.fr/externe/magus/datasets/MaGuS/Arabido/Arabido_data.tar.gz`
+  `wget http://www.genoscope.cns.fr/magus/datasets/MaGuS/Arabido/Arabido_data.tar.gz`
   5. Untar/unzip it:  
   `tar -zxvf Arabido_data.tar.gz`
   6. Add MaGuS libraries in $PATH (i.e. `PERL5LIB=$(pwd)/MaGuS-master/magus-1.0/lib/:$PERL5LIB`)
@@ -110,7 +110,6 @@ OPTIONS
          -a <string>    anchored tags on assembly       (default : prefix_anchored_assembly.txt)
          -l <string>    output file containing links between contigs/scaffolds  (default : prefix_map_links.txt)
          -c <string>    file containing links in DE format      (default : prefix_validated_map_links.de)
-         -m <string>    Bin path        (default: $PATH)
          -v <string>    path to samtools        (default: $PATH)
          -r <string>    path to R       (default: $PATH)
          -q <string>    path to fastalength     (default: $PATH)
