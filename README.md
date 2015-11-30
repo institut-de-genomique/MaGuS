@@ -19,7 +19,7 @@ GroupID 2
 ```
 MaGuS is distributed open-source under CeCILL FREE SOFTWARE LICENSE. Check out http://www.cecill.info/ for more information about the contents of this license.
 
-MaGuS website http://www.genoscope.cns.fr/externe/magus
+MaGuS website http://www.genoscope.cns.fr/magus
 
 Contact : magus [a] genoscope [.] cns [.] fr
 
