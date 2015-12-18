@@ -62,7 +62,7 @@ INSTALLATION
 $ magus all -w Arabido_data/tagsWgp.out -t Arabido_data/mapped_tag.bam -b Arabido_data/mp_map1_2.bam,5414,1000,76 -b Arabido_data/mp_map2_2.bam,5414,1000,76 -f Arabido_data/Arabido.fa -p Arabido -e 119667750 -z /path/to/SGA/ -r /path/to/R/ -v /path/to/samtools/
 ```
 
-If you didn't apply step 7, you should run MaGuS with the command above:
+If you didn't apply step 6, you should run MaGuS with the command above:
 
 ```
 $ /path/to/magus all -w Arabido_data/tagsWgp.out -t Arabido_data/mapped_tag.bam -b Arabido_data/mp_map1_2.bam,5414,1000,76 -b Arabido_data/mp_map2_2.bam,5414,1000,76 -f Arabido_data/Arabido.fa -p Arabido -e 119667750 -z /path/to/SGA/ -q /path/to/fastalength/ -r /path/to/R/ -v /path/to/samtools/ -g /path/to/getseq/
