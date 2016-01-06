@@ -50,7 +50,7 @@ INSTALLATION
   `wget https://github.com/institut-de-genomique/MaGuS/archive/master.zip`
   2. Unzip it:  
   `unzip master.zip`
-  3. Download the example dataset available on the website http://www.genoscope.cns.fr/externe/magus or:  
+  3. Download the example dataset available on the website http://www.genoscope.cns.fr/magus or:  
   `wget http://www.genoscope.cns.fr/magus/datasets/MaGuS/Arabido/Arabido_data.tar.gz`
   4. Untar/unzip it:  
   `tar -zxvf Arabido_data.tar.gz`
