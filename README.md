@@ -56,7 +56,7 @@ INSTALLATION
   `tar -zxvf Arabido_data.tar.gz`
   5. Add MaGuS libraries in $PERL5LIB (i.e. `PERL5LIB=$(pwd)/MaGuS-master/magus-1.0/lib/:$PERL5LIB`)
   6. Add MaGuS binaries in $PATH (i.e. `PATH=$(pwd)/MaGuS-master/magus-1.0/bin/:$PATH`)
-  7. Run MaGuS on the example data set :
+  7. Run MaGuS on the example data set and specify paths to SGA, R and samtools if they are not in the path :
   
 ```
 $ magus all -w Arabido_data/tagsWgp.out -t Arabido_data/mapped_tag.bam -b Arabido_data/mp_map1_2.bam,5414,1000,76 -b Arabido_data/mp_map2_2.bam,5414,1000,76 -f Arabido_data/Arabido.fa -p Arabido -e 119667750 -z /path/to/SGA/ -r /path/to/R/ -v /path/to/samtools/
