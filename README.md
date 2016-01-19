@@ -213,12 +213,12 @@ OUTPUT
 -${prefix}_besst_validated_map_links.log: links statistics 
 -output_coord_links: repository containing one file by linkage between two scaffold according to the orientation. The format name of these files is scafID1_scafID2_orientationRead1orientationRead2 (ex: scaffold88_scaffold459_+-). The output format within these files is:
 
-  col 1: scafID1               
-  col 2: scafID2	
+  col 1: scafID1 
+  col 2: scafID2 
   col 3: scafID1 length	
   col 4: scafID2 length	
-  col 5: scafID1 orientation
-  col 6: scafID2 orientation	
+  col 5: scafID1 orientation 
+  col 6: scafID2 orientation 
   col 7: scafID1 mapping position	
   col 8: scafID2 mapping position	
   col 9: scafID1 gap size
