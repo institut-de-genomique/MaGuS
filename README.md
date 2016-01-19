@@ -210,7 +210,7 @@ OUTPUT
 - pairs2links output	
 -${prefix}_validated_map_links.de: map-links validated by paired reads in .de format (SGA specific format)  
 -${prefix}_unvalidated_map_links.txt: list of map-links not validated by the paired reads	
--${prefix}_besst_validated_map_links.log: links statistics 
+-${prefix}_besst_validated_map_links.log: links statistics  
 -output_coord_links: repository containing one file by linkage between two scaffold according to the orientation. The format name of these files is scafID1_scafID2_orientationRead1orientationRead2 (ex: scaffold88_scaffold459_+-). The output format within these files is:
 
 col 1: scafID1  
