@@ -221,7 +221,7 @@ col 5: scafID1 orientation
 col 6: scafID2 orientation  
 col 7: scafID1 mapping position	 
 col 8: scafID2 mapping position	 
-col 9: scafID1 gap size
+col 9: gap size
   
 - links2scaf output	
 -${prefix}_final_scaffolds.fa: the final assembly (FASTA)	
