@@ -210,8 +210,14 @@ OUTPUT
 - pairs2links output	
 -${prefix}_validated_map_links.de: map-links validated by paired reads in .de format (SGA specific format)  
 -${prefix}_unvalidated_map_links.txt: list of map-links not validated by the paired reads	
--${prefix}_besst_validated_map_links.log: links statistics
--output_coord_links: repository containing one file by linkage between two scaffold according to the orientation
+-${prefix}_besst_validated_map_links.log: links statistics 
+-output_coord_links: repository containing one file by linkage between two scaffold according to the orientation. The format name of these files is 
+
+  col 1: group ID                
+  col 2: scaffold ID	
+  col 3: minimum tag rank	
+  col 4: maximum tag rank	
+  col 5: number of tags	
 
 - links2scaf output	
 -${prefix}_final_scaffolds.fa: the final assembly (FASTA)	
