@@ -40,7 +40,6 @@ PRE-REQUIREMENTS
 
 DEPENDENCIES
 ------------
-No dependencies
 
 INSTALLATION
 ------------
