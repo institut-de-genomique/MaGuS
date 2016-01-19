@@ -197,21 +197,21 @@ OUTPUT
   col 4: maximum tag rank	
   col 5: number of tags	
 
-- map2qc output	
+- map2qc output	 
 -prefix_An.csv: Anx values for x = 1 to 100%  
 -prefix_AnA.csv: AnAx values for x = 1 to 100%  
 -prefix_AnG.csv: AnGx vlaues for x = 1 to 100%  
--prefix_quality_metrics.png: Anx, AnAx and AnGx plots 
+-prefix_quality_metrics.png: Anx, AnAx and AnGx plots  
 -prefix_quality_metrics.txt: summary quality metrics of Anx, AnAx and AnGx values for x=0.5, x=0.75 and x=0.9 
 
 - map2links output	
 -${prefix}_map_links.txt: list of map-links between scaffolds (scaf1_scaf2)
 
 - pairs2links output	
--${prefix}_validated_map_links.de: map-links validated by paired reads in .de format (SGA specific format)  
--${prefix}_unvalidated_map_links.txt: list of map-links not validated by the paired reads	
--${prefix}_besst_validated_map_links.log: links statistics  
--output_coord_links: repository containing one file by linkage between two scaffold according to the orientation. The format name of these files is scafID1_scafID2_orientationRead1orientationRead2 (ex: scaffold88_scaffold459_+-). The output format within these files is:
+-${prefix}\_validated_map_links.de: map-links validated by paired reads in .de format (SGA specific format)  
+-${prefix}\_unvalidated_map_links.txt: list of map-links not validated by the paired reads	
+-${prefix}\_besst_validated_map_links.log: links statistics  
+-output\_coord_links: repository containing one file by linkage between two scaffold according to the orientation. The format name of these files is scafID1_scafID2_orientationRead1orientationRead2 (ex: scaffold88_scaffold459_+-). The output format within these files is:
 
 col 1: scafID1  
 col 2: scafID2  
@@ -240,7 +240,7 @@ If you have questions about MaGuS, you may ask them to amadoui [at] genoscope [.
 
 ACKNOWLEDGMENTS
 ---------------
-Carole Dossat, Jean-Marc Aury and Mohammed-Amin Madoui - MaGuS's authors
+Carole Dossat, d'Agata Léo, Jean-Marc Aury and Mohammed-Amin Madoui - MaGuS's authors
 
 This work was financially supported by the Genoscope,
 Institut de Genomique, CEA and Agence Nationale de la
