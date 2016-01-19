@@ -40,8 +40,7 @@ PRE-REQUIREMENTS
 
 DEPENDENCIES
 ------------
-fastalength:  program from exonerate availaible under the LGPL license (http://dev.man-online.org/man1/fastalength/)  
-
+No dependencies
 
 INSTALLATION
 ------------
@@ -59,13 +58,13 @@ INSTALLATION
   7. Run MaGuS on the example data set and specify paths to SGA, R and samtools if they are not in the path :
   
 ```
-$ magus all -w Arabido_data/tagsWgp.out -t Arabido_data/mapped_tag.bam -b Arabido_data/mp_map1_2.bam,5414,1000,76 -b Arabido_data/mp_map2_2.bam,5414,1000,76 -f Arabido_data/Arabido.fa -p Arabido -e 119667750 -z /path/to/SGA/ -r /path/to/R/ -v /path/to/samtools/
+$ magus all -w Arabido_data/tagsWgp.out -t Arabido_data/mapped_tag.bam -b Arabido_data/mp_map1_2.bam,5414,1000,76 -b Arabido_data/mp_map2_2.bam,5414,1000,76 -f Arabido_data/Arabido.fa -p Arabido -e 119667750 -sga /path/to/SGA/ -r /path/to/R/ -samtools /path/to/samtools/
 ```
 
 If you didn't apply step 6, you should run MaGuS with the command above:
 
 ```
-$ /path/to/magus all -w Arabido_data/tagsWgp.out -t Arabido_data/mapped_tag.bam -b Arabido_data/mp_map1_2.bam,5414,1000,76 -b Arabido_data/mp_map2_2.bam,5414,1000,76 -f Arabido_data/Arabido.fa -p Arabido -e 119667750 -z /path/to/SGA/ -q /path/to/fastalength/ -r /path/to/R/ -v /path/to/samtools/ -g /path/to/getseq/
+$ /path/to/magus all -w Arabido_data/tagsWgp.out -t Arabido_data/mapped_tag.bam -b Arabido_data/mp_map1_2.bam,5414,1000,76 -b Arabido_data/mp_map2_2.bam,5414,1000,76 -f Arabido_data/Arabido.fa -p Arabido -e 119667750 -sga /path/to/SGA/ -r /path/to/R/ -samtools /path/to/samtools/
 ```
 
 RUNNING MaGuS
@@ -116,11 +115,9 @@ OPTIONS
          -a <string>    anchored tags on assembly       (default : prefix_anchored_assembly.txt)
          -l <string>    output file containing links between contigs/scaffolds  (default : prefix_map_links.txt)
          -c <string>    file containing links in DE format      (default : prefix_validated_map_links.de)
-         -v <string>    path to samtools        (default: $PATH)
+         -samtools <string>    path to samtools        (default: $PATH)
          -r <string>    path to R       (default: $PATH)
-         -q <string>    path to fastalength     (default: $PATH)
-         -z <string>    path to sga     (default: $PATH)
-         -g <string>    path to getseq  (default: $PATH)
+         -sga <string>    path to sga     (default: $PATH)
          -p <string>    prefix for output files (default: magus)
          -h             this help
 
@@ -131,7 +128,7 @@ OPTIONS
 
         OPTIONAL PARAMETERS:
         -p <string>     prefix for output files (default : magus)
-        -v <string>     path to samtools        (default: $PATH)
+        -samtools <string>     path to samtools        (default: $PATH)
         -h              this help
 
 - ##### Options for map2qc
@@ -142,7 +139,6 @@ OPTIONS
 
         OPTIONAL PARAMETERS:
         -p <string>     prefix for output files (default: magus)
-        -q <string>     path to fastalength     (default: $PATH)
         -r <string>     path to R       (default: $PATH)
         -h              this help
 
@@ -162,15 +158,14 @@ OPTIONS
         -b <string>     file.bam,m,sd,s: paired reads alignment (BAM), library median size (bp), library standart deviation (bp), reads size (bp)
 
         OPTIONAL PARAMETERS:
-        -v <string>     path to samtools        (default: $PATH)
-        -q <string>     path to fastalength     (default: $PATH)
+        -samtools <string>     path to samtools        (default: $PATH)
         -p <string>     prefix for output files (default: magus)
         -h              this help
 
 
 Several mapped paired-end libraries (BAM file) can be used simultanously with the -b option for each one of them. Example:
 ```
-magus pairs2links -f Arabidopsis.fa -l links_file.txt -b mapping_library1.bam,3500,600,101 -b mapping_library2.bam,6000,1000,151 -v /path/to/samtools/ -p Arabido
+magus pairs2links -f Arabidopsis.fa -l links_file.txt -b mapping_library1.bam,3500,600,101 -b mapping_library2.bam,6000,1000,151 -samtools /path/to/samtools/ -p Arabido
 ```
 
 - ##### Options for links2scaf	
@@ -178,8 +173,7 @@ magus pairs2links -f Arabidopsis.fa -l links_file.txt -b mapping_library1.bam,35
         -c <string>     links.de: file containing links in DE format
 
         OPTIONAL PARAMETERS:
-        -z <string>     path to sga     (default: $PATH)
-        -g <string>     path to getseq  (default: $PATH)
+        -sga <string>     path to sga     (default: $PATH)
         -p <string>     prefix for output files (default: magus)
         -h              this help
 
