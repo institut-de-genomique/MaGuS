@@ -112,11 +112,32 @@ sub sizeGap () {
 	# mean if gap and standard dev
 	my @gapSizes = ();
 	my $validLinksNb = 0;
+	my $filename = '';
+	#open (LINKS_DETAILS, ">>links_details.txt");
+	open (LINKS_DETAILS, ">>output_coord_links/$filename");
 	foreach my $link ( @{$self->links()} ) {		
 		if ($link->isValid()) {
 			$validLinksNb++;
+			$filename = $self->scaffoldId1."_".$self->scaffoldId2."_".$self->orientation();
+			open (LINKS_DETAILS, ">>output_coord_links/$filename");
+			print LINKS_DETAILS $self->scaffoldId1,"\t",$self->scaffoldId2,"\t",$link->match1()->length(),"\t",$link->match2()->length(),"\t";
+			if ($self->orientation() eq "-+") {
+				print LINKS_DETAILS "+\t+\t";
+			}	
+			if ($self->orientation() eq "--") {
+				print LINKS_DETAILS "+\t-\t";
+			}
+			if ($self->orientation() eq "+-") {
+				print LINKS_DETAILS "-\t-\t";
+			}
+			if ($self->orientation() eq "++") {
+				print LINKS_DETAILS "-\t+\t";
+			}
+			print LINKS_DETAILS $link->match1()->position(),"\t",$link->match2()->position(),"\t",$link->gap(),"\n";
+
 			push @gapSizes, $link->gap();
 		}
+		close (LINKS_DETAILS);
 	}
 	$self->validLinksNb($validLinksNb);
 	if (scalar(@gapSizes) != 0) {
@@ -128,6 +149,7 @@ sub sizeGap () {
 		$self->gapMean(0);
 		$self->gapStdDev(0);	
 	}
+
 }	
 	    
 sub printDeFormat ($) {

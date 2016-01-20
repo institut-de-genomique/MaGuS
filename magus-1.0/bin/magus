@@ -68,11 +68,10 @@ my $connectionsFile = "";
 my $connectionsLog = "";
 my $orderedTagsFile = "";
 my $statsFile = "";
-#my $binPath = "/env/cns/ARCH/x64/bin/"; ## FOR TESTS
-my $binPath = "";
-my ($samtoolsPath,$sgaPath,$RPath,$fastalengthPath,$getseqPath) = ("","","","","");
-#$sgaPath = "/env/cns/opt/sga-master/SGA/"; ## FOR TESTS
+#my $binPath = "";
+my ($samtoolsPath,$sgaPath,$RPath) = ("","","","","");
 my $genomeSize = 0;
+my $plot = "";
 
 unless(GetOptions(
         "w=s" 	=> \$mapFile,
@@ -84,14 +83,12 @@ unless(GetOptions(
         "c=s" => \$connectionsFile,
         "s=s"   => \$orderedTagsFile,
         "x=s"   => \$statsFile,
-        "m=s" => \$binPath,
-        "v=s" => \$samtoolsPath,
-        "z=s"   => \$sgaPath,
+        "samtools=s" => \$samtoolsPath,
+        "sga=s"   => \$sgaPath,
         "r=s"     => \$RPath,
-        "q=s" => \$fastalengthPath,
-        "g=s" => \$getseqPath,
         "p=s" 	=> \$prefix,
         "e=i"  => \$genomeSize,
+        "-no-plot"  => \$plot,
         "h"   	=> \$help, 
 )) {die $usage;}
 
@@ -102,6 +99,7 @@ if (scalar(@ARGV) == 0) {
 if (scalar(@ARGV) > 1) {
 	die "\n$usage";
 }
+
 
 
 if ($ARGV[0] eq "map2qc" && ! $orderedTagsFile) {
@@ -151,16 +149,16 @@ if ($statsFile eq "") {
 
 switch ($ARGV[0]) {
     case "wgp2map"     {Magus::Magus::checkWgp2map($help,$mapFile,$tagsFile); Magus::Magus::wgp2map($mapFile,$samtoolsPath,$tagsFile,$checkedTagsFile,$orderedTagsFile)}
-    case "map2qc"      {Magus::Magus::checkMap2qc($help,$scaffoldsFile,$genomeSize,$orderedTagsFile); Magus::Magus::map2qc($orderedTagsFile,$scaffoldsFile,$statsFile,$genomeSize,$prefix,$RPath,$fastalengthPath)}
+    case "map2qc"      {Magus::Magus::checkMap2qc($help,$scaffoldsFile,$genomeSize,$orderedTagsFile); Magus::Magus::map2qc($orderedTagsFile,$scaffoldsFile,$statsFile,$genomeSize,$prefix,$RPath,$plot)}
     case "map2links"   {Magus::Magus::checkMap2links($help,$checkedTagsFile); Magus::Magus::map2links($checkedTagsFile,$linksFile)}
-    case "pairs2links" {Magus::Magus::checkPairs2links($help,$scaffoldsFile,\@readsData,$linksFile); Magus::Magus::pairs2links($samtoolsPath,$fastalengthPath,\@readsData,$scaffoldsFile,$linksFile,$badLinksFile,$connectionsFile,$connectionsLog)}
-    case "links2scaf"  {Magus::Magus::checkLinks2scaf($help,$scaffoldsFile,$connectionsFile); Magus::Magus::links2scaf($connectionsFile,$sgaScaffFile,$scaffoldsFile,$sgaScaffLog,$newScaffFile,$newScaffLog,$sgaLostFile,$scaffLostFile,$allScaffFile,$sgaPath,$getseqPath)}    
+    case "pairs2links" {Magus::Magus::checkPairs2links($help,$scaffoldsFile,\@readsData,$linksFile); Magus::Magus::pairs2links($samtoolsPath,\@readsData,$scaffoldsFile,$linksFile,$badLinksFile,$connectionsFile,$connectionsLog)}
+    case "links2scaf"  {Magus::Magus::checkLinks2scaf($help,$scaffoldsFile,$connectionsFile); Magus::Magus::links2scaf($connectionsFile,$sgaScaffFile,$scaffoldsFile,$sgaScaffLog,$newScaffFile,$newScaffLog,$sgaLostFile,$scaffLostFile,$allScaffFile,$sgaPath)}    
     case "all"         {Magus::Magus::checkAll($help,$mapFile,$tagsFile,$checkedTagsFile,$scaffoldsFile,\@readsData,$genomeSize); 
     					Magus::Magus::wgp2map($mapFile,$samtoolsPath,$tagsFile,$checkedTagsFile,$orderedTagsFile); 
-    					Magus::Magus::map2qc($orderedTagsFile,$scaffoldsFile,$statsFile,$genomeSize,$prefix,$RPath,$fastalengthPath);
+    					Magus::Magus::map2qc($orderedTagsFile,$scaffoldsFile,$statsFile,$genomeSize,$prefix,$RPath,$plot);
     					Magus::Magus::map2links($checkedTagsFile,$linksFile);
-    					Magus::Magus::pairs2links($samtoolsPath,$fastalengthPath,\@readsData,$scaffoldsFile,$linksFile,$badLinksFile,$connectionsFile,$connectionsLog);
-    					Magus::Magus::links2scaf($connectionsFile,$sgaScaffFile,$scaffoldsFile,$sgaScaffLog,$newScaffFile,$newScaffLog,$sgaLostFile,$scaffLostFile,$allScaffFile,$sgaPath,$getseqPath)}
+    					Magus::Magus::pairs2links($samtoolsPath,\@readsData,$scaffoldsFile,$linksFile,$badLinksFile,$connectionsFile,$connectionsLog);
+    					Magus::Magus::links2scaf($connectionsFile,$sgaScaffFile,$scaffoldsFile,$sgaScaffLog,$newScaffFile,$newScaffLog,$sgaLostFile,$scaffLostFile,$allScaffFile,$sgaPath)}
     else               {print $usage}
 }
 

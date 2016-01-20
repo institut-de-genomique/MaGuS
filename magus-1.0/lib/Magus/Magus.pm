@@ -51,26 +51,50 @@ use Magus::Connection;
 
 ### FUNCTIONS FOR MAGUS ###
 
-sub getScaffoldslengths ($$) {
-	my ($file,$path) = @_;
+#sub getScaffoldslengths ($$) {
+sub getScaffoldslengths ($) {
+	#my ($file,$path) = @_;
+	my ($file) = @_;
 	my %scaffoldsLengths = ();
 	
-	my $fastalength = $path."fastalength";
+	#my $fastalength = $path."fastalength";
+	#my $getseq = $getseqPath."getseq";
 	
-	open (LENGTH, "$fastalength -f $file |") 
-		or die "[ERROR] :: fill :: Cannot use fastalength : $!\n";
+	#open (LENGTH, "$fastalength -f $file |") 
+	open (LENGTH, "getseq -len -f $file |") 
+		#or die "[ERROR] :: fill :: Cannot use fastalength : $!\n";
+		or die "[ERROR] :: fill :: Cannot use getseq : $!\n";
 
 	while (<LENGTH>) {
-		if ($_ =~ /^(\d+)\s+(\S+)\s*$/ ) {
-			my $scaffoldId = $2;
-			my $length = $1; 
+#		if ($_ =~ /^(\d+)\s+(\S+)\s*$/ ) {
+		if ($_ =~ /^(\S+)\t+(\d+)\s*$/ ) {
+#			my $scaffoldId = $2;
+			my $scaffoldId = $1;
+#			my $length = $1; 
+			my $length = $2; 
 			$scaffoldsLengths{$scaffoldId} = $length;
 		}
 		else {
-			die "[ERROR] problem with parsing fastalength line $_\n";
+#			die "[ERROR] problem with parsing fastalength line $_\n";
+			die "[ERROR] problem with parsing getseq line $_\n";
 		}		
 	}
 	close LENGTH;
+
+#	open(FASTA,$file) or die "cannot open file: $file\n";
+
+#    local $/=">";
+#    while(<FASTA>) {
+#        chomp;
+#        next unless /\w/;
+#        s/>$//gs;
+#        my @chunk = split /\n/;
+#        my $header = shift @chunk;
+#        my $seqlen = length join "", @chunk;
+#	#print $seqlen,"\t","$header","\n";
+#	$scaffoldsLengths{$header} = $seqlen;
+#    }
+#    local $/="\n";
 	return \%scaffoldsLengths;
 }
 
@@ -82,7 +106,7 @@ sub checkWgp2map ($$$) {
 	$synopsis .= "OPTIONAL PARAMETERS:\n";
 	$synopsis .= "\t-p <string>\tprefix for output files";
 	$synopsis .= "\t(default : magus)\n";
-	$synopsis .= "\t-v <string>\tpath to samtools\t(default: \$PATH)\n";
+	$synopsis .= "\t-samtools <string>\tpath to samtools\t(default: \$PATH)\n";
 	$synopsis .= "\t-h\t\tthis help\n\n";
 	$synopsis .= "EXAMPLE:\n\tmagus wg2map -w wgpFile -t tags.bam -p Arabido\n\n";
 	
@@ -153,12 +177,11 @@ sub checkPairs2links ($$$$) {
 	$synopsis .= "\t-l <string>\tlinks_file.txt: file containing links between contigs/scaffolds\n";
 	$synopsis .= "\t-b <string>\tfile.bam,m,sd,s: paired reads alignment (BAM), library median size (bp), library standart deviation (bp), reads size (bp)\n\n";
 	$synopsis .= "OPTIONAL PARAMETERS:\n";	
-	$synopsis .= "\t-v <string>\tpath to samtools\t(default: \$PATH)\n";
-	$synopsis .= "\t-q <string>\tpath to fastalength\t(default: \$PATH)\n";
+	$synopsis .= "\t-samtools <string>\tpath to samtools\t(default: \$PATH)\n";
 	$synopsis .= "\t-p <string>\tprefix for output files";
 	$synopsis .= "\t(default: magus)\n";
 	$synopsis .= "\t-h\t\tthis help\n\n";
-	$synopsis .= "EXAMPLE:\n\tmagus pairs2links -f Arabidopsis.fa -l links_file.txt -b mapping_library1.bam,3500,600,101 -b mapping_library2.bam,6000,1000,151 -v /env/bin/PathToSamtools -p Arabido\n\n";
+	$synopsis .= "EXAMPLE:\n\tmagus pairs2links -f Arabidopsis.fa -l links_file.txt -b mapping_library1.bam,3500,600,101 -b mapping_library2.bam,6000,1000,151 -samtools /env/bin/PathToSamtools -p Arabido\n\n";
 	
 #	$synopsis .= "\n\n This module looks for proofs between putative links by using mate pair sequences.\n";
 #	$synopsis .= " It needs reads file and assembly file.\n";
@@ -178,8 +201,8 @@ sub checkPairs2links ($$$$) {
 	} 
 }
 
-sub pairs2links ($$$$$$$$) {
-	my ($samtoolsPath,$fastalengthPath,$readsData,$scaffoldsFile,$linksFile,$noLinkFile,$connectionsFile,$connectionsLog) = @_;
+sub pairs2links ($$$$$$$) {
+	my ($samtoolsPath,$readsData,$scaffoldsFile,$linksFile,$noLinkFile,$connectionsFile,$connectionsLog) = @_;
 		
 	### initialize
 	open (CONNECTIONS, ">$connectionsFile")
@@ -196,7 +219,7 @@ sub pairs2links ($$$$$$$$) {
 	}
 
 	### get scaffolds lengths
-	my $scaffoldsLengths = getScaffoldslengths($scaffoldsFile,$fastalengthPath);
+	my $scaffoldsLengths = getScaffoldslengths($scaffoldsFile);
 
 	### for stats
 	my ($goodLinks,$badLinks,$allLinks) = (0,0,0);
@@ -207,7 +230,10 @@ sub pairs2links ($$$$$$$$) {
 	
 	open (NOLINK, ">$noLinkFile")
 		or die "Cannot open noLinkFile : $noLinkFile : $!\n";
-	
+
+	if (! -d "output_coord_links") { mkdir "output_coord_links" };
+	unlink glob "output_coord_links/*";
+	#if ( -f "links_details.txt") { unlink "links_details.txt"};
 	while (<LINKS>) {
 		$allLinks++;
 		chomp $_;
@@ -294,11 +320,10 @@ sub checkLinks2scaf ($$$) {
 	$synopsis .= "\t-f <string>\tassembly.fa: assembly file (FASTA)\n";
 	$synopsis .= "\t-c <string>\tlinks.de: file containing links in DE format\n\n";
 	$synopsis .= "OPTIONAL PARAMETERS:\n";	
-	$synopsis .= "\t-z <string>\tpath to sga\t(default: \$PATH)\n";
-	$synopsis .= "\t-g <string>\tpath to getseq\t(default: \$PATH)\n";
+	$synopsis .= "\t-sga <string>\tpath to sga\t(default: \$PATH)\n";
 	$synopsis .= "\t-p <string>\tprefix for output files\t(default: magus)\n";
 	$synopsis .= "\t-h\t\tthis help\n\n";
-	$synopsis .= "EXAMPLE:\n\tmagus links2scaf -f Arabidopsis.fa -c links.de -z /env/bin/PathToSga -g /env/bin/PathToGetseq -p Arabido\n\n";
+	$synopsis .= "EXAMPLE:\n\tmagus links2scaf -f Arabidopsis.fa -c links.de -sga /env/bin/PathToSga -p Arabido\n\n";
 #	$synopsis .= "\n This module outputs the final assembly by using validated links.\n";
 #	$synopsis .= " It needs the links file and the first assembly.\n";
 #	$synopsis .= "\n Outputs are sga output file, sga log file and final assembly file prefix_all_scaffolds.fa\n\n";
@@ -369,15 +394,15 @@ sub getLostScafNameFromFasta ($$$) {
 	close LOST;
 }
 
-sub links2scaf ($$$$$$$$$$$) {
-	my ($connectionsFile,$sgaScaffFile,$scaffoldsFile,$sgaScaffLog,$newScaffFile,$newScaffLog,$sgaLostFile,$scaffLostFile,$allScaffFile,$sgaPath,$getseqPath) = @_;
+sub links2scaf ($$$$$$$$$$) {
+	my ($connectionsFile,$sgaScaffFile,$scaffoldsFile,$sgaScaffLog,$newScaffFile,$newScaffLog,$sgaLostFile,$scaffLostFile,$allScaffFile,$sgaPath) = @_;
 	my $sga = $sgaPath."sga";
-	my $getseq = $getseqPath."getseq";
+	#my $getseq = $getseqPath."getseq";
 	
 	execCmd("$sga scaffold -v --mate-pair $connectionsFile -o $sgaScaffFile $scaffoldsFile > $sgaScaffLog");
 	execCmd("$sga scaffold2fasta -o $newScaffFile -f $scaffoldsFile $sgaScaffFile > $newScaffLog");
 	getLostScafNameFromFasta($scaffoldsFile,$sgaScaffFile,$sgaLostFile);	
-	execCmd("$getseq -list $sgaLostFile -f $scaffoldsFile -o $scaffLostFile");
+	execCmd("getseq -list $sgaLostFile -f $scaffoldsFile -o $scaffLostFile");
 	execCmd("cat $newScaffFile $scaffLostFile > $allScaffFile");
 }
 
@@ -389,12 +414,10 @@ sub checkMap2qc ($$$$) {
 	$synopsis .= "\t-s <string>\ttags_coordinates.txt: sorted file according to mapping position of tags \n\n";
 	$synopsis .= "OPTIONAL PARAMETERS:\n";		
 	$synopsis .= "\t-p <string>\tprefix for output files (default: magus)\n";
-	$synopsis .= "\t-q <string>\tpath to fastalength\t(default: \$PATH)\n";
 	$synopsis .= "\t-r <string>\tpath to R\t(default: \$PATH)\n";
+	$synopsis .= "\t-m\t\tdisable plot output\n";
 	$synopsis .= "\t-h\t\tthis help\n\n";
-	$synopsis .= "EXAMPLE:\n\tmagus map2qc -f Arabidopsis.fa -e 120000000 -s tags_coordinates.txt -p Arabido -q /path/to/fastalength/\n\n";
-#	$synopsis .= "This module gives some quality metrics about new assembly.\n";
-#	$synopsis .= "It takes in entry magus file prefix_ordered_tags.txt and the old assembly fasta file.\n\n";
+	$synopsis .= "EXAMPLE:\n\tmagus map2qc -f Arabidopsis.fa -e 120000000 -s tags_coordinates.txt -p Arabido \n\n";
 	
 	if ($help) {
 		die $synopsis;
@@ -465,7 +488,7 @@ dev.off()
 }
 
 sub map2qc ($$$$$$$) {
-	my ($orderedTagsFile,$scaffoldsFile,$statsFile,$genomeSize,$prefix,$RPath,$fastalengthPath) = @_;
+	my ($orderedTagsFile,$scaffoldsFile,$statsFile,$genomeSize,$prefix,$RPath,$plot) = @_;
 	my ($lastScaff,$lastPos,$lastTag,$lastRank,$lastMol) = ("",-1,"",-1,"");
 	my %tagsCounter = ();
 	my @anchoredSegLength = ();
@@ -532,11 +555,13 @@ sub map2qc ($$$$$$$) {
 	}
 	
 	# assembly size
-	my $assemblySize = `"$fastalengthPath"fastalength $scaffoldsFile |  awk '{ sum+=\$1; } END { print sum; }'`;
+	#my $assemblySize = `"$fastalengthPath"fastalength $scaffoldsFile |  awk '{ sum+=\$1; } END { print sum; }'`;
+	my $assemblySize = `awk '/^>/ {if (seqlen) print seqlen;print \$1"@";seqlen=0;next} {seqlen+=length(\$0)}END{print seqlen}' $scaffoldsFile | tr "@\n" " " | sed 's/>/\\n/g' | awk '{print \$2,\$1}' |  awk '{ sum+=\$1; } END { print sum; }'`;
+
 	chomp $assemblySize;
 	
 	# get all scaff and length
-	my $scaffoldsLengths = getScaffoldslengths($scaffoldsFile,$fastalengthPath);
+	my $scaffoldsLengths = getScaffoldslengths($scaffoldsFile);
 	my $anchoredAssemblySize = 0;
 	my $anchoredScaffolds = 0;
 	my $anchoredScaffoldsLength = 0;
@@ -585,7 +610,7 @@ sub map2qc ($$$$$$$) {
 	
 	close $handleMetrics;
 	
-	makeGraphs($plotFile,$AnFile,$AnAFile,$AnGFile,$RPath);
+	makeGraphs($plotFile,$AnFile,$AnAFile,$AnGFile,$RPath) if (! $plot);
 }
 
 sub checkAll ($$$$$$$) {
@@ -609,17 +634,16 @@ sub checkAll ($$$$$$$) {
 	$synopsis .= "\t(default : prefix_map_links.txt)\n";
 	$synopsis .= "\t -c <string>\tfile containing links in DE format";
 	$synopsis .= "\t(default : prefix_validated_map_links.de)\n";
-	$synopsis .= "\t -v <string>\tpath to samtools\t(default: \$PATH)\n";
+	$synopsis .= "\t -samtools <string>\tpath to samtools\t(default: \$PATH)\n";
 	$synopsis .= "\t -r <string>\tpath to R\t(default: \$PATH)\n";
-	$synopsis .= "\t -q <string>\tpath to fastalength\t(default: \$PATH)\n";
-	$synopsis .= "\t -z <string>\tpath to sga\t(default: \$PATH)\n";
-	$synopsis .= "\t -g <string>\tpath to getseq\t(default: \$PATH)\n";
+	$synopsis .= "\t -sga <string>\tpath to sga\t(default: \$PATH)\n";
 	$synopsis .= "\t -p <string>\tprefix for output files\t(default: magus)\n";
+	$synopsis .= "\t-m\tdisable plot output\n";
 	$synopsis .= "\t -h\t\tthis help\n\n";
 	$synopsis .= "EXAMPLE:\n\tmagus all -w tagsWgp.out -t mapping.bam -f Arabidopsis.fa -b mapping_library1.bam,3500,600,101";
 	$synopsis .=  " -b mapping_library2.bam,6000,1000,151 -b mapping_library3.bam,9000,1400,251 -e 120000000 \n";
 	$synopsis .= "\tmagus all -w tagsWgp.out -t mapping.bam -f Arabidopsis.fa -b mapping_library1.bam,3500,600,101 -e 120000000 -s tags_coordinates.txt -a anchoring_file.txt -l links_file.txt -c links.de";
-	$synopsis .=  " -v /env/bin/PathToSamtools -r /env/bin/PathToR -q /env/bin/PathToFstlg -z /env/bin/PathToSga -g /env/bin/PathToGetseq\n";
+	$synopsis .=  " -samtools /env/bin/PathToSamtools -r /env/bin/PathToR -sga /env/bin/PathToSga\n";
 	$synopsis .= "\tmagus all -w tagsWgp.out -t mapping.bam -f Arabidopsis.fa -b mapping_library1.bam,3500,600,101 -e 120000000";
 	$synopsis .=  " -p Arabido\n\n";
 	
