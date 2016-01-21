@@ -415,7 +415,7 @@ sub checkMap2qc ($$$$) {
 	$synopsis .= "OPTIONAL PARAMETERS:\n";		
 	$synopsis .= "\t-p <string>\tprefix for output files (default: magus)\n";
 	$synopsis .= "\t-r <string>\tpath to R\t(default: \$PATH)\n";
-	$synopsis .= "\t--no-plotm\t\tdisable plot output\n";
+	$synopsis .= "\t--no-plot\tdisable plot output\n";
 	$synopsis .= "\t-h\t\tthis help\n\n";
 	$synopsis .= "EXAMPLE:\n\tmagus map2qc -f Arabidopsis.fa -e 120000000 -s tags_coordinates.txt -p Arabido \n\n";
 	
