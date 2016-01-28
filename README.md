@@ -118,6 +118,7 @@ OPTIONS
          -r <string>    path to R       (default: $PATH)
          -sga <string>    path to sga     (default: $PATH)
          -p <string>    prefix for output files (default: magus)
+         --no-plot      disable plot output
          -h             this help
 
 - ##### Options for wgp2map
@@ -139,6 +140,7 @@ OPTIONS
         OPTIONAL PARAMETERS:
         -p <string>     prefix for output files (default: magus)
         -r <string>     path to R       (default: $PATH)
+        --no-plot      disable plot output
         -h              this help
 
 - ##### Options for map2links
