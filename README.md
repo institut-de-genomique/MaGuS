@@ -140,7 +140,7 @@ OPTIONS
         OPTIONAL PARAMETERS:
         -p <string>     prefix for output files (default: magus)
         -r <string>     path to R       (default: $PATH)
-        --no-plot      disable plot output
+        --no-plot       disable plot output
         -h              this help
 
 - ##### Options for map2links
