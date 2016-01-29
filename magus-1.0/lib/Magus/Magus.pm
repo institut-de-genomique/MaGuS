@@ -98,8 +98,8 @@ sub getScaffoldslengths ($) {
 	return \%scaffoldsLengths;
 }
 
-sub checkWgp2map ($$$) {
-	my ($help,$mapFile,$tagsFile) = @_;
+sub checkWgp2map ($$$$) {
+	my ($help,$mapFile,$tagsFile,$samtoolsPath) = @_;
 	my $synopsis = "\nVersion 1.0.1\n\nUsage: magus wg2map -w wgpFile -t tags.bam [options] [-h]\n";
 	$synopsis .= "\t-w <string>\twgpFile: WGP data\n";
 	$synopsis .= "\t-t <string>\ttags.bam: tags alignment on the assembly (BAM)\n\n";
@@ -119,6 +119,9 @@ sub checkWgp2map ($$$) {
 	}
 	if ($tagsFile eq "") {
 		die "$synopsis";
+	}
+	if ($samtoolsPath eq ""){
+		die "samtools not in \$PATH" if ! grep { -x "$_/samtools"}split /:/,$ENV{PATH};
 	}
 }
 
@@ -170,8 +173,8 @@ sub map2links ($$) {
 	close $handleLinks;
 }
 
-sub checkPairs2links ($$$$) {
-	my ($help,$scaffoldsFile,$readsData,$linksFile) = @_;
+sub checkPairs2links ($$$$$) {
+	my ($help,$scaffoldsFile,$readsData,$linksFile,$samtoolsPath) = @_;
 	my $synopsis = "\nVersion 1.0.1\n\nUsage: magus pairs2links -f assembly.fa -l links_file.txt -b file.bam,m,sd,s [options] [-h]\n";
 	$synopsis .= "\t-f <string>\tassembly.fa: assembly file (FASTA)\n";
 	$synopsis .= "\t-l <string>\tlinks_file.txt: file containing links between contigs/scaffolds\n";
@@ -198,7 +201,10 @@ sub checkPairs2links ($$$$) {
 	}
 	if (scalar(@$readsData) == 0 ) {
 		die "$synopsis";
-	} 
+	}
+	if ($samtoolsPath eq ""){
+		die "samtools not in \$PATH" if ! grep { -x "$_/samtools"}split /:/,$ENV{PATH};
+	}
 }
 
 sub pairs2links ($$$$$$$) {
@@ -314,8 +320,8 @@ sub execCmd ($) {
 		or die "[ERROR] : Cannot execute $cmd : $!\n";
 } 
 
-sub checkLinks2scaf ($$$) {
-	my ($help,$scaffoldsFile,$connectionsFile) = @_;
+sub checkLinks2scaf ($$$$) {
+	my ($help,$scaffoldsFile,$connectionsFile,$sgaPath) = @_;
 	my $synopsis = "\nVersion 1.0.1\n\nUsage: magus links2scaf -f assembly.fa -c links.de [options] [-h]\n";
 	$synopsis .= "\t-f <string>\tassembly.fa: assembly file (FASTA)\n";
 	$synopsis .= "\t-c <string>\tlinks.de: file containing links in DE format\n\n";
@@ -336,6 +342,9 @@ sub checkLinks2scaf ($$$) {
 	}
 	if (! -f $connectionsFile) {
 		die "$synopsis";
+	}
+	if ($sgaPath eq "") {
+		die "sga not in \$PATH" if ! grep { -x "$_/sga"}split /:/,$ENV{PATH};
 	}
 }
 
@@ -406,8 +415,8 @@ sub links2scaf ($$$$$$$$$$) {
 	execCmd("cat $newScaffFile $scaffLostFile > $allScaffFile");
 }
 
-sub checkMap2qc ($$$$) {
-	my ($help,$scaffoldsFile,$genomeSize,$orderedTagsFile) = @_;
+sub checkMap2qc ($$$$$) {
+	my ($help,$scaffoldsFile,$genomeSize,$orderedTagsFile,$RPath) = @_;
 	my $synopsis = "\nVersion 1.0.1\n\nUsage: magus map2qc -f assembly.fa -e estimate_size -s tags_coordinates.txt [options] [-h]\n";
 	$synopsis .= "\t-f <string>\tassembly.fa: assembly file (FASTA)\n";
 	$synopsis .= "\t-e <int>\testimate_size: genome estimate size (bp)\n";
@@ -430,7 +439,10 @@ sub checkMap2qc ($$$$) {
 	}
 	if ($genomeSize == 0 ) {
 		die "$synopsis";
-	} 
+	}
+	if ($RPath eq "") {
+		die "R not in \$PATH" if ! grep { -x "$_/R"}split /:/,$ENV{PATH};
+	}
 }
 
 sub addNmetrics ($$$$$) {
@@ -613,8 +625,8 @@ sub map2qc ($$$$$$$) {
 	makeGraphs($plotFile,$AnFile,$AnAFile,$AnGFile,$RPath) if (! $plot);
 }
 
-sub checkAll ($$$$$$$) {
-	my ($help,$mapFile,$tagsFile,$checkedTagsFile,$scaffoldsFile,$readsData,$genomeSize) = @_;
+sub checkAll ($$$$$$$$$$) {
+	my ($help,$mapFile,$tagsFile,$checkedTagsFile,$scaffoldsFile,$readsData,$genomeSize,$samtoolsPath,$sgaPath,$RPath) = @_;
 	
 	my $synopsis = "\nVersion 1.0.1\n\nUsage: magus all -w wgpFile -t tags.bam -f assembly.fa -e estimate_size -b file.bam,m,sd,s [options] [-h]\n";
 	$synopsis .= "\t -w <string>\twgpFile: WGP data\n";
@@ -667,7 +679,17 @@ sub checkAll ($$$$$$$) {
 	}
 	if (scalar(@$readsData) == 0 ) {
 		die "$synopsis";
-	} 
+	}
+	if ($samtoolsPath eq ""){
+		die "samtools not in \$PATH" if ! grep { -x "$_/samtools"}split /:/,$ENV{PATH};
+	}
+	if ($sgaPath eq "") {
+		die "sga not in \$PATH" if ! grep { -x "$_/sga"}split /:/,$ENV{PATH};
+	}
+	if ($RPath eq "") {
+		die "R not in \$PATH" if ! grep { -x "$_/R"}split /:/,$ENV{PATH};
+	}
+
 	#checkWgp2map($help,$mapFile,$tagsFile);
 	#checkMap2qc($help,$scaffoldsFile,$genomeSize);
 	#checkMap2links($help,$checkedTagsFile);
