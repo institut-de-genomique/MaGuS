@@ -46,6 +46,7 @@ use Switch;
 use Magus::Magus;
 
 
+
 ### VARIABLES ###
 
 my $usage .= "Version 1.0.1\n\nUsage: magus <command> [options] [-h]\n";
@@ -100,6 +101,17 @@ if (scalar(@ARGV) > 1) {
 	die "\n$usage";
 }
 
+
+
+if ( ($samtoolsPath eq "" && $ARGV[0] eq "wgp2map") || ($samtoolsPath eq "" && $ARGV[0] eq "pairs2links") || ($samtoolsPath eq "" && $ARGV[0] eq "all") ) {
+	die "samtools not in \$PATH" if ! grep { -x "$_/samtools"}split /:/,$ENV{PATH};
+}
+if ( ($sgaPath eq "" && $ARGV[0] eq "links2scaf") || ($sgaPath eq "" && $ARGV[0] eq "all") ) {
+	die "sga not in \$PATH" if ! grep { -x "$_/sga"}split /:/,$ENV{PATH};
+}
+if ( ($RPath eq "" && $ARGV[0] eq "map2qc")  || ($RPath eq "" && $ARGV[0] eq "all") ) {
+	die "R not in \$PATH" if ! grep { -x "$_/R"}split /:/,$ENV{PATH};
+}
 
 
 if ($ARGV[0] eq "map2qc" && ! $orderedTagsFile) {
