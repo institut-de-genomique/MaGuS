@@ -185,7 +185,9 @@ sub libereCache {
     my ( $self, $quantity ) = @_;
     my $tot = 0;
     warn "[ExtraSeq] Debug : must free : $quantity\n" if $DEBUG;
-    while ( my ( $clef, $valeur ) = each %{ $self->{CACHE} } ) {
+#    while ( my ( $clef, $valeur ) = each %{ $self->{CACHE} } ) {
+    foreach my $clef (keys %{ $self->{CACHE} } ) {
+	my $valeur = $self->{CACHE}->{$clef};
         my $size = $valeur->{SIZE};
         $self->{CURRENT_CACHE_SIZE} = $self->{CURRENT_CACHE_SIZE} - $size;
         delete( ( $self->{CACHE} )->{$clef} );
